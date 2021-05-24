@@ -4,15 +4,14 @@ import "firebase/database";
 import "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDSmdP7dUrzz11ozZs7RrN9PdPh2QeYAqE",
-  authDomain: "moscht-d3512.firebaseapp.com",
-  databaseURL: "https://moscht-d3512.firebaseio.com",
-  projectId: "moscht-d3512",
-  storageBucket: "moscht-d3512.appspot.com",
-  messagingSenderId: "1074821206007",
-  appId: "1:1074821206007:web:66c297ad5edb8110e528f2",
-  measurementId: "G-KX8TPRF55J"
+  apiKey: "AIzaSyDAOtB5bsHj1C9EoRjyYRbKPtzoLIiT88g",
+  authDomain: "moscht2.firebaseapp.com",
+  projectId: "moscht2",
+  storageBucket: "moscht2.appspot.com",
+  messagingSenderId: "955528020736",
+  appId: "1:955528020736:web:200d16f1df74efee1e29e5"
 };
+
 
 firebase.initializeApp(firebaseConfig);
 
