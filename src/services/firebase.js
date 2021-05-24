@@ -6,6 +6,7 @@ import "firebase/storage";
 const firebaseConfig = {
   apiKey: "AIzaSyDAOtB5bsHj1C9EoRjyYRbKPtzoLIiT88g",
   authDomain: "moscht2.firebaseapp.com",
+  databaseURL: "https://moscht2-default-rtdb.europe-west1.firebasedatabase.app/",
   projectId: "moscht2",
   storageBucket: "moscht2.appspot.com",
   messagingSenderId: "955528020736",
