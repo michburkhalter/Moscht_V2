@@ -99,6 +99,16 @@ class App extends Component {
               authenticated={this.state.authenticated}
               component={Profile}
             />
+            <PrivateRoute
+              path="/logs"
+              authenticated={this.state.authenticated}
+              component={Logs}
+            /> 
+            <PrivateRoute
+              path="/managecars"
+              authenticated={this.state.authenticated}
+              component={ManageCars}
+            />                       
           </Switch>
         </Router>
       );
