@@ -349,16 +349,16 @@ export default class DetailsTable extends Component {
         hidden: true
       },
       {
-        dataField: 'fuelamount',
-        text: 'Benzin',
-        sort: true,
-        formatter: fuel_amount_formatter
-      },
-      {
         dataField: 'odometer',
         text: 'Kilometer',
         sort: true,
         formatter: odometer_formatter
+      },
+      {
+        dataField: 'fuelamount',
+        text: 'Benzin',
+        sort: true,
+        formatter: fuel_amount_formatter
       },
       {
         dataField: 'price',
