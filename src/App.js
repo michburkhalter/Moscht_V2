@@ -13,7 +13,7 @@ import Overview from './pages/Overview';
 import Logs from './pages/Logs';
 import ManageCars from './pages/ManageCars';
 import Profile from './pages/Profile';
-import AddFuel from './pages/AddFuel';
+import AddFill from './pages/AddFill';
 import DetailsTable from './pages/DetailsTable';
 import { auth } from './services/firebase';
 import './style.css';
@@ -43,7 +43,7 @@ function PublicRoute({ component: Component, authenticated, ...rest }) {
         authenticated === false ? (
           <Component {...props} />
         ) : (
-          <Redirect to="/addfuel" />
+          <Redirect to="/addfill" />
         )
       }
     />
@@ -110,9 +110,9 @@ class App extends Component {
             component={ManageCars}
           />
           <PrivateRoute
-            path="/addfuel"
+            path="/addfill"
             authenticated={this.state.authenticated}
-            component={AddFuel}
+            component={AddFill}
           />
           <PrivateRoute
             path="/detailstable"
