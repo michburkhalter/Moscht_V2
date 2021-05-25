@@ -14,6 +14,7 @@ import Logs from './pages/Logs';
 import ManageCars from './pages/ManageCars';
 import Profile from './pages/Profile';
 import AddFuel from './pages/AddFuel';
+import DetailsTable from './pages/DetailsTable';
 import { auth } from './services/firebase';
 import './style.css';
 
@@ -112,6 +113,11 @@ class App extends Component {
             path="/addfuel"
             authenticated={this.state.authenticated}
             component={AddFuel}
+          />
+          <PrivateRoute
+            path="/detailstable"
+            authenticated={this.state.authenticated}
+            component={DetailsTable}
           />
         </Switch>
       </Router>
