@@ -42,7 +42,7 @@ function PublicRoute({ component: Component, authenticated, ...rest }) {
         authenticated === false ? (
           <Component {...props} />
         ) : (
-          <Redirect to="/overview" />
+          <Redirect to="/addfuel" />
         )
       }
     />
