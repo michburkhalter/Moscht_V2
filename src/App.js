@@ -13,7 +13,7 @@ import Overview from './pages/Overview';
 import Logs from './pages/Logs';
 import ManageCars from './pages/ManageCars';
 import Profile from './pages/Profile';
-import AddCarEvent from './pages/AddCarEvent';
+import AddFuel from './pages/AddFuel';
 import { auth } from './services/firebase';
 import './style.css';
 
@@ -109,9 +109,9 @@ class App extends Component {
             component={ManageCars}
           />
           <PrivateRoute
-            path="/addcarevent"
+            path="/addfuel"
             authenticated={this.state.authenticated}
-            component={AddCarEvent}
+            component={AddFuel}
           />
         </Switch>
       </Router>

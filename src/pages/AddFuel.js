@@ -20,7 +20,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { show_toast_failure, show_toast_success } from "../helpers/toast";
 import {time_formatter, fuel_efficiency_formatter, fuel_amount_formatter, odometer_formatter, price_formatter} from "../helpers/datatable_formatters";
 
-export default class AddCarEvent extends Component {
+export default class AddFuel extends Component {
   constructor(props) {
     super(props);
     this.state = {

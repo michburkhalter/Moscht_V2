@@ -15,7 +15,7 @@ function Header() {
             ? <div className="navbar-nav">
               <Link className="nav-item nav-link mr-3" to="/overview">Overview</Link>
               <Link className="nav-item nav-link mr-3" to="/managecars">Manage Cars</Link>
-              <Link className="nav-item nav-link mr-3" to="/addcarevent">Add</Link>
+              <Link className="nav-item nav-link mr-3" to="/addfuel">Add</Link>
               <Link className="nav-item nav-link mr-3" to="/logs">Log</Link>
               <Link className="nav-item nav-link mr-3" to="/profile">Profile</Link>
               <button className="btn btn-primary mr-3" onClick={() => auth().signOut()}>Logout</button>
