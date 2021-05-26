@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
+import CookieBot from "react-cookiebot";
+
 
 export default class HomePage extends Component {
   render() {
@@ -20,6 +22,7 @@ export default class HomePage extends Component {
             </div>
           </div>
         </section>
+        <CookieBot domainGroupId='71a94a9d-7714-4996-ac6e-6c96fafeac84' />
         <Footer></Footer>
       </div>
     )
