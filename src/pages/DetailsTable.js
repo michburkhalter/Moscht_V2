@@ -101,7 +101,8 @@ export default class DetailsTable extends Component {
             if (this.state.selectedCar !== undefined){
               let tmp = this.get_fills_of_a_car(this.state.selectedCar);
               if (tmp !== undefined){
-                let tmp2 = Object.values(tmp).sort(this.order_fills_by_odometer);
+                console.log('asdf')
+                let tmp2 = Object.values(tmp).sort(this.compare_fills_by_odometer_desc);
                 this.setState({datatable_rows: tmp2})
 
               }
@@ -145,16 +146,16 @@ export default class DetailsTable extends Component {
     return comparison;
   }
 
-  order_fills_by_odometer(a, b) {
+  compare_fills_by_odometer_desc(a, b) {
     // Use toUpperCase() to ignore character casing
     const fillA = parseInt(a.odometer, 10);
     const fillB = parseInt(b.odometer, 10);
 
     let comparison = 0;
     if (fillA > fillB) {
-      comparison = 1;
-    } else if (fillA < fillB) {
       comparison = -1;
+    } else if (fillA < fillB) {
+      comparison = 1;
     }
     return comparison;
   }
@@ -172,7 +173,7 @@ export default class DetailsTable extends Component {
     event.preventDefault();
     this.setState({ writeError: null });
 
-    let ordered_fills = this.state.datatable_rows.sort(this.order_fills_by_odometer);
+    let ordered_fills = this.state.datatable_rows.sort(this.compare_fills_by_odometer_desc);
     let average_consumption_of_leg = 0;
     try {
       average_consumption_of_leg = this.calculate_fuel_consumption_of_leg(
@@ -352,19 +353,22 @@ export default class DetailsTable extends Component {
         dataField: 'odometer',
         text: 'Kilometer',
         sort: true,
-        formatter: odometer_formatter
+        formatter: odometer_formatter,
+        type: 'number'
       },
       {
         dataField: 'fuelamount',
         text: 'Benzin',
         sort: true,
-        formatter: fuel_amount_formatter
+        formatter: fuel_amount_formatter,
+        type: 'number'
       },
       {
         dataField: 'price',
         text: 'Preis',
         sort: true,
-        formatter: price_formatter
+        formatter: price_formatter,
+        type: 'number'
       },
       {
         dataField: 'timestamp',
@@ -395,7 +399,7 @@ export default class DetailsTable extends Component {
 
     const defaultSorted = [
       {
-        dataField: 'timestamp',
+        dataField: 'odometer',
         order: 'desc'
       }
     ];
@@ -453,7 +457,7 @@ export default class DetailsTable extends Component {
               hover
               condensed
               bordered={false}
-              defaultSorted={defaultSorted}
+              //defaultSorted={defaultSorted}
               noDataIndication="Table is Empty"
               pagination={paginationFactory()}
               cellEdit={cellEditFactory({
