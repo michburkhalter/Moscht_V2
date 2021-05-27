@@ -26,7 +26,7 @@ import {
   price_formatter
 } from '../helpers/datatable_formatters';
 
-export default class AddFuel extends Component {
+export default class AddFill extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -358,7 +358,7 @@ export default class AddFuel extends Component {
                 </Form.Group>
               </Form.Row>
               <Button variant="primary" className="px-5" type="submit">
-                Submit
+                Submit Fill
               </Button>
             </Form>
           </Row>
