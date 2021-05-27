@@ -13,10 +13,7 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-import { ToastContainer } from 'react-toastify';
 
-import 'react-toastify/dist/ReactToastify.css';
-import { show_toast_failure, show_toast_success } from '../helpers/toast';
 import {
   time_formatter,
   fuel_efficiency_formatter,
@@ -35,9 +32,6 @@ export default class DetailsTable extends Component {
       cars: [],
       filtered_cars: [],
       owned_cars: [],
-      fuelamount: '',
-      odometer: '',
-      price: '',
       selectedCar: '',
       readError: null,
       writeError: null,
@@ -46,7 +40,6 @@ export default class DetailsTable extends Component {
       window_width_where_table_content_is_hidden: 1000
     };
 
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.car_selected = this.car_selected.bind(this);
 
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
@@ -169,53 +162,6 @@ export default class DetailsTable extends Component {
     return average_consumption;
   }
 
-  async handleSubmit(event) {
-    event.preventDefault();
-    this.setState({ writeError: null });
-
-    let ordered_fills = this.state.datatable_rows.sort(this.compare_fills_by_odometer_desc);
-    let average_consumption_of_leg = 0;
-    try {
-      average_consumption_of_leg = this.calculate_fuel_consumption_of_leg(
-        this.state.fuelamount,
-        this.state.odometer,
-        ordered_fills[ordered_fills.length - 1].odometer
-      );
-    } catch (error) {
-      average_consumption_of_leg = 0;
-    }
-
-    if (
-      this.state.fuelamount === '' ||
-      this.state.odometer === '' ||
-      this.state.price === ''
-    ) {
-      show_toast_failure('Angaben inkomplett');
-      return;
-    }
-
-    try {
-      if (this.state.selectedCar !== '') {
-        await db.ref('cars/' + this.state.selectedCar + '/fills').push({
-          fuelamount: this.state.fuelamount,
-          odometer: this.state.odometer,
-          price: this.state.price,
-          timestamp: Date.now(),
-          user: this.state.user_settings.UserName,
-          fuel_efficiency: average_consumption_of_leg
-        });
-        this.setState({ fuelamount: '', odometer: '', price: '' });
-
-        show_toast_success('Tiptop, ⌀ ' + average_consumption_of_leg + ' l/km');
-      } else {
-        this.setState({ writeError: 'please select a car first.' });
-        show_toast_failure('No Car selected');
-      }
-    } catch (error) {
-      this.setState({ writeError: error.message });
-    }
-  }
-
   get_car_by_id(car_id) {
     let retval = undefined;
     this.state.filtered_cars.forEach(car => {
@@ -271,8 +217,6 @@ export default class DetailsTable extends Component {
       console.log('no fills available');
       this.setState({ datatable_rows: [] });
     }
-
-    this.setState({ fuelamount: '', odometer: '', price: '' });
   }
 
   get_fills_of_a_car(car_id) {
@@ -415,19 +359,6 @@ export default class DetailsTable extends Component {
       <div className="m-5">
         <Header />
         <Container>
-          <Row>
-            <ToastContainer
-              position="bottom-center"
-              autoClose={5000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-            />
-          </Row>
           <Row>
             <div className="py-1 m-3">
               <Dropdown>
