@@ -13,9 +13,11 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timeline-component';
+import {
+  VerticalTimeline,
+  VerticalTimelineElement
+} from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
-
 
 import {
   time_formatter,
@@ -40,7 +42,7 @@ export default class CarEventsTimeline extends Component {
       writeError: null,
       width: 0,
       height: 0,
-      window_width_where_table_content_is_hidden: 1000
+      events: []
     };
 
     this.car_selected = this.car_selected.bind(this);
@@ -83,6 +85,7 @@ export default class CarEventsTimeline extends Component {
         );
       })
       .then(step3 => {
+        this.create_event()
         db.ref('cars').on('value', snapshot => {
           let cars = [];
           snapshot.forEach(snap => {
@@ -290,8 +293,61 @@ export default class CarEventsTimeline extends Component {
     }
   }
 
+  create_event() {
+    let event = (
+      <VerticalTimelineElement
+        className="vertical-timeline-element--work"
+        contentStyle={{
+          background: 'rgb(33, 150, 243)',
+          color: '#fff'
+        }}
+        contentArrowStyle={{
+          borderRight: '7px solid  rgb(33, 150, 243)'
+        }}
+        date="2011 - present"
+        iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
+      >
+        <h3 className="vertical-timeline-element-title">Creative Director</h3>
+        <p>
+          Creative Direction, User Experience, Visual Design, Project
+          Management, Team Leading
+        </p>
+      </VerticalTimelineElement>
+    );
+
+    this.setState(previousState => ({
+      events: [...previousState.events, event]
+    }));
+  }
+
+  get_timeline_events() {
+    let rt_val = '';
+
+    rt_val = (
+      <VerticalTimelineElement
+        className="vertical-timeline-element--work"
+        contentStyle={{
+          background: 'rgb(33, 150, 243)',
+          color: '#fff'
+        }}
+        contentArrowStyle={{
+          borderRight: '7px solid  rgb(33, 150, 243)'
+        }}
+        date="2011 - present"
+        iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
+      >
+        <h3 className="vertical-timeline-element-title">Creative Director</h3>
+        <p>
+          Creative Direction, User Experience, Visual Design, Project
+          Management, Team Leading
+        </p>
+      </VerticalTimelineElement>
+    );
+
+    return this.state.events;
+  }
+
   render() {
-    
     return (
       <div className="m-5">
         <Header />
@@ -318,32 +374,24 @@ export default class CarEventsTimeline extends Component {
           <Row>
             <h2>Events</h2>
             <VerticalTimeline>
-
-              <VerticalTimelineElement
-                className="vertical-timeline-element--work"
-                contentStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
-                contentArrowStyle={{ borderRight: '7px solid  rgb(33, 150, 243)' }}
-                date="2011 - present"
-                iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
-              >
-                <h3 className="vertical-timeline-element-title">Creative Director</h3>
-                <p>
-                  Creative Direction, User Experience, Visual Design, Project Management, Team Leading
-                </p>
-              </VerticalTimelineElement>
+              {this.get_timeline_events()}
 
               <VerticalTimelineElement
                 className="vertical-timeline-element--work"
                 date="2010 - 2011"
                 iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
               >
-                <h3 className="vertical-timeline-element-title">Art Director</h3>
-                <h4 className="vertical-timeline-element-subtitle">San Francisco, CA</h4>
+                <h3 className="vertical-timeline-element-title">
+                  Art Director
+                </h3>
+                <h4 className="vertical-timeline-element-subtitle">
+                  San Francisco, CA
+                </h4>
                 <p>
-                  Creative Direction, User Experience, Visual Design, SEO, Online Marketing
+                  Creative Direction, User Experience, Visual Design, SEO,
+                  Online Marketing
                 </p>
               </VerticalTimelineElement>
-
             </VerticalTimeline>
           </Row>
           <Row>
