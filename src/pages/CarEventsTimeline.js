@@ -13,6 +13,9 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timeline-component';
+import 'react-vertical-timeline-component/style.min.css';
+
 
 import {
   time_formatter,
@@ -90,14 +93,15 @@ export default class CarEventsTimeline extends Component {
           let filtered_cars = this.filter_to_only_owned_cars(cars);
           this.setState({ filtered_cars });
 
-          this.setState({ cars },() => {
-            if (this.state.selectedCar !== undefined){
+          this.setState({ cars }, () => {
+            if (this.state.selectedCar !== undefined) {
               let tmp = this.get_fills_of_a_car(this.state.selectedCar);
-              if (tmp !== undefined){
-                console.log('asdf')
-                let tmp2 = Object.values(tmp).sort(this.compare_fills_by_odometer_desc);
-                this.setState({datatable_rows: tmp2})
-
+              if (tmp !== undefined) {
+                console.log('asdf');
+                let tmp2 = Object.values(tmp).sort(
+                  this.compare_fills_by_odometer_desc
+                );
+                this.setState({ datatable_rows: tmp2 });
               }
             }
           });
@@ -287,74 +291,7 @@ export default class CarEventsTimeline extends Component {
   }
 
   render() {
-    let fill_columns = [
-      {
-        dataField: 'id',
-        text: 'Id',
-        hidden: true
-      },
-      {
-        dataField: 'odometer',
-        text: 'Kilometer',
-        sort: true,
-        formatter: odometer_formatter,
-        type: 'number'
-      },
-      {
-        dataField: 'fuelamount',
-        text: 'Benzin',
-        sort: true,
-        formatter: fuel_amount_formatter,
-        type: 'number'
-      },
-      {
-        dataField: 'price',
-        text: 'Preis',
-        sort: true,
-        formatter: price_formatter,
-        type: 'number'
-      },
-      {
-        dataField: 'timestamp',
-        text: 'Datum',
-        formatter: time_formatter,
-        sort: true
-      },
-      {
-        dataField: 'user',
-        text: 'Wer',
-        sort: true
-      },
-      {
-        dataField: 'fuel_efficiency',
-        text: 'Verbrauch',
-        sort: true,
-        formatter: fuel_efficiency_formatter
-      }
-    ];
-
-    if (
-      this.state.width < this.state.window_width_where_table_content_is_hidden
-    ) {
-      fill_columns[4].hidden = true; // timestamp
-      fill_columns[5].hidden = true; // Wer
-      fill_columns[6].hidden = true; // Verbrauch
-    }
-
-    const defaultSorted = [
-      {
-        dataField: 'odometer',
-        order: 'desc'
-      }
-    ];
-    const selectRow = {
-      mode: 'checkbox',
-      clickToSelect: false,
-      hideSelectAll: true,
-      onSelect: (row, isSelect, rowIndex, e) => {
-        this.delete_fill(row, isSelect);
-      }
-    };
+    
     return (
       <div className="m-5">
         <Header />
@@ -379,32 +316,35 @@ export default class CarEventsTimeline extends Component {
             </div>
           </Row>
           <Row>
-            <h2>Tankungen</h2>
-            <BootstrapTable
-              keyField="id"
-              data={this.state.datatable_rows}
-              columns={fill_columns}
-              striped
-              hover
-              condensed
-              bordered={false}
-              //defaultSorted={defaultSorted}
-              noDataIndication="Table is Empty"
-              pagination={paginationFactory()}
-              cellEdit={cellEditFactory({
-                mode: 'click',
-                onStartEdit: (row, column, rowIndex, columnIndex) => {
-                  console.log('onStartEdit Cell!!');
-                },
-                beforeSaveCell: (oldValue, newValue, row, column) => {
-                  console.log('Before Saving Cell!!');
-                },
-                afterSaveCell: (oldValue, newValue, row, column) => {
-                  this.update_fill(oldValue, newValue, row, column);
-                }
-              })}
-              selectRow={selectRow}
-            />
+            <h2>Events</h2>
+            <VerticalTimeline>
+
+              <VerticalTimelineElement
+                className="vertical-timeline-element--work"
+                contentStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
+                contentArrowStyle={{ borderRight: '7px solid  rgb(33, 150, 243)' }}
+                date="2011 - present"
+                iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
+              >
+                <h3 className="vertical-timeline-element-title">Creative Director</h3>
+                <p>
+                  Creative Direction, User Experience, Visual Design, Project Management, Team Leading
+                </p>
+              </VerticalTimelineElement>
+
+              <VerticalTimelineElement
+                className="vertical-timeline-element--work"
+                date="2010 - 2011"
+                iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
+              >
+                <h3 className="vertical-timeline-element-title">Art Director</h3>
+                <h4 className="vertical-timeline-element-subtitle">San Francisco, CA</h4>
+                <p>
+                  Creative Direction, User Experience, Visual Design, SEO, Online Marketing
+                </p>
+              </VerticalTimelineElement>
+
+            </VerticalTimeline>
           </Row>
           <Row>
             <div className="py-5 mx-3">
