@@ -13,7 +13,13 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-
+import {
+  time_formatter,
+  fuel_efficiency_formatter,
+  fuel_amount_formatter,
+  odometer_formatter,
+  price_formatter
+} from '../helpers/datatable_formatters';
 
 export default class Logs extends Component {
   constructor(props) {
@@ -212,11 +218,7 @@ export default class Logs extends Component {
     const time = `${d.getDate()}/${(d.getMonth()+1)}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
     return time;
   }
-  timeFormatter(cell, row, rowIndex, formatExtraData) {
-    const d = new Date(cell);
-    const time = `${d.getDate()}/${(d.getMonth()+1)}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
-    return time;
-  }
+
 
   fileFormatter(cell, row, rowIndex, formatExtraData) {
     if((cell === undefined) || (cell === '-') || (cell === '')){
@@ -392,11 +394,13 @@ export default class Logs extends Component {
         {
           dataField: 'odometer',
           text: 'Kilometerstand',
-          sort: true
+          sort: true,
+          formatter: odometer_formatter,
         },
         {
           dataField: 'price',
           text: 'Preis',
+          formatter: price_formatter,
           sort: true
         },
         {
@@ -408,7 +412,7 @@ export default class Logs extends Component {
           //todo: https://react-bootstrap-table.github.io/react-bootstrap-table2/storybook/index.html?selectedKind=Cell%20Editing&selectedStory=Date%20Editor&full=0&addons=1&stories=1&panelRight=0&addonPanel=storybook%2Factions%2Factions-panel
           dataField: 'timestamp',
           text: 'Datum',
-          formatter: this.timeFormatter,
+          formatter: time_formatter,
           sort: true
         },
         {
