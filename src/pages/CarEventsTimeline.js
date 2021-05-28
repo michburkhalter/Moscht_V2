@@ -32,7 +32,7 @@ export default class CarEventsTimeline extends Component {
     super(props);
     this.state = {
       user: auth().currentUser,
-      datatable_rows: [],
+      datatable_rows: [], //todo: when fertig mit import von events und fills, dann dieses hier löschen
       user_settings: {},
       cars: [],
       filtered_cars: [],
@@ -85,7 +85,6 @@ export default class CarEventsTimeline extends Component {
         );
       })
       .then(step3 => {
-        this.create_event()
         db.ref('cars').on('value', snapshot => {
           let cars = [];
           snapshot.forEach(snap => {
@@ -100,11 +99,18 @@ export default class CarEventsTimeline extends Component {
             if (this.state.selectedCar !== undefined) {
               let tmp = this.get_fills_of_a_car(this.state.selectedCar);
               if (tmp !== undefined) {
-                console.log('asdf');
                 let tmp2 = Object.values(tmp).sort(
                   this.compare_fills_by_odometer_desc
                 );
-                this.setState({ datatable_rows: tmp2 });
+                tmp2.forEach(fill =>
+                  this.create_fill_event(
+                    fill.fuelamount,
+                    fill.price,
+                    fill.odometer,
+                    fill.timestamp,
+                    fill.fuel_efficiency
+                  )
+                );
               }
             }
           });
@@ -218,8 +224,18 @@ export default class CarEventsTimeline extends Component {
 
     try {
       this.setState({
-        datatable_rows: Object.values(this.get_fills_of_a_car(id))
+        events: []
       });
+      let sorted_fills = Object.values(this.get_fills_of_a_car(id)).sort(this.compare_fills_by_odometer_desc);
+      sorted_fills.forEach(fill =>
+        this.create_fill_event(
+          fill.fuelamount,
+          fill.price,
+          fill.odometer,
+          fill.timestamp,
+          fill.fuel_efficiency
+        )
+      );
     } catch (error) {
       console.log('no fills available');
       this.setState({ datatable_rows: [] });
@@ -320,6 +336,39 @@ export default class CarEventsTimeline extends Component {
     }));
   }
 
+  create_fill_event(
+    fuelamount = 0,
+    price = 0,
+    odometer = 0,
+    timestamp = 0,
+    fuel_efficiency = 0
+  ) {
+    let event = (
+      <VerticalTimelineElement
+        className="vertical-timeline-element--work"
+        contentStyle={{
+          background: 'rgb(33, 150, 243)',
+          color: '#fff'
+        }}
+        contentArrowStyle={{
+          borderRight: '7px solid  rgb(33, 150, 243)'
+        }}
+        date={time_formatter(timestamp)}
+        iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
+      >
+        <h3 className="vertical-timeline-element-title">Tankung</h3>
+        <div>Menge: {fuel_amount_formatter(fuelamount)}</div>
+        <div>Kilometerstand: {odometer_formatter(odometer)}</div>
+        <div>Preis: {price_formatter(price)}</div>
+        <div>Verbrauch: {fuel_efficiency_formatter(fuel_efficiency)}</div>
+      </VerticalTimelineElement>
+    );
+
+    this.setState(previousState => ({
+      events: [...previousState.events, event]
+    }));
+  }
+
   get_timeline_events() {
     let rt_val = '';
 
@@ -387,10 +436,7 @@ export default class CarEventsTimeline extends Component {
                 <h4 className="vertical-timeline-element-subtitle">
                   San Francisco, CA
                 </h4>
-                <p>
-                  Creative Direction, User Experience, Visual Design, SEO,
-                  Online Marketing
-                </p>
+                <p>This and that</p>
               </VerticalTimelineElement>
             </VerticalTimeline>
           </Row>
