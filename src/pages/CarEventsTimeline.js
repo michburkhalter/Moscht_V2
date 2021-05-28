@@ -97,34 +97,62 @@ export default class CarEventsTimeline extends Component {
           this.setState({
             events: []
           });
-
+          let db_events = [];
           this.setState({ cars }, () => {
             if (this.state.selectedCar !== undefined) {
               let fills = this.get_fills_of_a_car(this.state.selectedCar);
               let logs = this.get_logs_of_a_car(this.state.selectedCar);
               if (fills !== undefined) {
                 Object.values(fills).forEach(fill =>
-                  this.create_fill_event(
-                    fill.fuelamount,
-                    fill.price,
-                    fill.odometer,
-                    fill.timestamp,
-                    fill.fuel_efficiency
-                  )
+                  //this.create_fill_event(
+                  //  fill.fuelamount,
+                  //  fill.price,
+                  //  fill.odometer,
+                  //  fill.timestamp,
+                  //  fill.fuel_efficiency
+                  //)
+                  db_events.push({ fill: fill, odometer: fill.odometer })
                 );
               }
               if (logs !== undefined) {
                 Object.values(logs).forEach(log =>
-                  this.create_log_event(
-                    log.what,
-                    log.price,
-                    log.odometer,
-                    log.timestamp,
-                    log.user,
-                    log.who
-                  )
+                  //this.create_log_event(
+                  //  log.what,
+                  //  log.price,
+                  //  log.odometer,
+                  //  log.timestamp,
+                  //  log.user,
+                  //  log.who
+                  //)
+                  db_events.push({ log: log, odometer: log.odometer })
                 );
               }
+              console.log('ö5as6ien');
+              let tmp2 = Object.values(db_events).sort(
+                this.compare_events_by_odometer_desc
+              );
+              console.log(tmp2);
+
+              Object.values(tmp2).forEach(event => {
+                if ('fill' in event) {
+                  this.create_fill_event(
+                    event.fill.fuelamount,
+                    event.fill.price,
+                    event.fill.odometer,
+                    event.fill.timestamp,
+                    event.fill.fuel_efficiency
+                  )
+                }else if('log' in event){
+                  this.create_log_event(
+                    event.log.what,
+                    event.log.price,
+                    event.log.odometer,
+                    event.log.timestamp,
+                    event.log.user,
+                    event.log.who
+                  )
+                }
+              });
             }
           });
         });
@@ -414,20 +442,30 @@ export default class CarEventsTimeline extends Component {
   }
 
   add_timeline_event(event) {
-    //this.setState(previousState => ({
-    //  events: [...previousState.events, event]
-    //}));
+    this.setState(previousState => ({
+      events: [...previousState.events, event]
+    }));
 
-    let events = this.state.events;
-    events = events.concat(event);
-    let tmp2 = Object.values(events).sort(this.compare_events_by_odometer_desc);
-    console.log(tmp2)
-    this.setState({ events:tmp2 });
+    //let events = this.state.events;
+    //events = events.concat(event);
+    //let tmp2 = Object.values(events).sort(this.compare_events_by_odometer_desc);
+    //console.log(tmp2)
+    //this.setState({ events:tmp2 });
   }
 
   get_timeline_events() {
-    console.log(this.state.events);
-    return this.state.events;
+    let ev = [];
+    let eventslength = this.state.events.length;
+    let events = this.state.events;
+
+    if (eventslength > 1) {
+      console.log('OMG33');
+      let tmp2 = Object.values(events).sort(
+        this.compare_events_by_odometer_desc
+      );
+      return tmp2;
+    }
+    return ev;
   }
 
   render() {
