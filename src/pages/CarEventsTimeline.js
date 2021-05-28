@@ -32,7 +32,6 @@ export default class CarEventsTimeline extends Component {
     super(props);
     this.state = {
       user: auth().currentUser,
-      datatable_rows: [], //todo: when fertig mit import von events und fills, dann dieses hier löschen
       user_settings: {},
       cars: [],
       filtered_cars: [],
@@ -262,7 +261,6 @@ export default class CarEventsTimeline extends Component {
       );
     } catch (error) {
       console.log('no fills available');
-      this.setState({ datatable_rows: [] });
     }
   }
 
@@ -416,9 +414,15 @@ export default class CarEventsTimeline extends Component {
   }
 
   add_timeline_event(event) {
-    this.setState(previousState => ({
-      events: [...previousState.events, event]
-    }));
+    //this.setState(previousState => ({
+    //  events: [...previousState.events, event]
+    //}));
+
+    let events = this.state.events;
+    events = events.concat(event);
+    let tmp2 = Object.values(events).sort(this.compare_events_by_odometer_desc);
+    console.log(tmp2)
+    this.setState({ events:tmp2 });
   }
 
   get_timeline_events() {
