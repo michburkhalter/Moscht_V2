@@ -95,20 +95,34 @@ export default class CarEventsTimeline extends Component {
           let filtered_cars = this.filter_to_only_owned_cars(cars);
           this.setState({ filtered_cars });
 
+          this.setState({
+            events: []
+          });
+
           this.setState({ cars }, () => {
             if (this.state.selectedCar !== undefined) {
-              let tmp = this.get_fills_of_a_car(this.state.selectedCar);
-              if (tmp !== undefined) {
-                let tmp2 = Object.values(tmp).sort(
-                  this.compare_fills_by_odometer_desc
-                );
-                tmp2.forEach(fill =>
+              let fills = this.get_fills_of_a_car(this.state.selectedCar);
+              let logs = this.get_logs_of_a_car(this.state.selectedCar);
+              if (fills !== undefined) {
+                Object.values(fills).forEach(fill =>
                   this.create_fill_event(
                     fill.fuelamount,
                     fill.price,
                     fill.odometer,
                     fill.timestamp,
                     fill.fuel_efficiency
+                  )
+                );
+              }
+              if (logs !== undefined) {
+                Object.values(logs).forEach(log =>
+                  this.create_log_event(
+                    log.what,
+                    log.price,
+                    log.odometer,
+                    log.timestamp,
+                    log.user,
+                    log.who
                   )
                 );
               }
@@ -138,29 +152,29 @@ export default class CarEventsTimeline extends Component {
     return filtered_cars;
   }
 
-  compare_fills_by_odometer(a, b) {
+  compare_events_by_odometer(a, b) {
     // Use toUpperCase() to ignore character casing
-    const fillA = parseInt(a.odometer, 10);
-    const fillB = parseInt(b.odometer, 10);
+    const eventA = parseInt(a.odometer, 10);
+    const eventB = parseInt(b.odometer, 10);
 
     let comparison = 0;
-    if (fillA > fillB) {
+    if (eventA > eventB) {
       comparison = 1;
-    } else if (fillA < fillB) {
+    } else if (eventA < eventB) {
       comparison = -1;
     }
     return comparison;
   }
 
-  compare_fills_by_odometer_desc(a, b) {
+  compare_events_by_odometer_desc(a, b) {
     // Use toUpperCase() to ignore character casing
-    const fillA = parseInt(a.odometer, 10);
-    const fillB = parseInt(b.odometer, 10);
+    const eventA = parseInt(a.odometer, 10);
+    const eventB = parseInt(b.odometer, 10);
 
     let comparison = 0;
-    if (fillA > fillB) {
+    if (eventA > eventB) {
       comparison = -1;
-    } else if (fillA < fillB) {
+    } else if (eventA < eventB) {
       comparison = 1;
     }
     return comparison;
@@ -226,14 +240,24 @@ export default class CarEventsTimeline extends Component {
       this.setState({
         events: []
       });
-      let sorted_fills = Object.values(this.get_fills_of_a_car(id)).sort(this.compare_fills_by_odometer_desc);
-      sorted_fills.forEach(fill =>
+
+      Object.values(this.get_fills_of_a_car(id)).forEach(fill =>
         this.create_fill_event(
           fill.fuelamount,
           fill.price,
           fill.odometer,
           fill.timestamp,
           fill.fuel_efficiency
+        )
+      );
+      Object.values(this.get_logs_of_a_car(id)).forEach(log =>
+        this.create_log_event(
+          log.what,
+          log.price,
+          log.odometer,
+          log.timestamp,
+          log.user,
+          log.who
         )
       );
     } catch (error) {
@@ -258,6 +282,24 @@ export default class CarEventsTimeline extends Component {
     }
 
     return fills;
+  }
+
+  get_logs_of_a_car(car_id) {
+    let logs = [];
+    if (car_id !== undefined && car_id !== '') {
+      logs = this.get_car_by_id(this.state.selectedCar).logs;
+    }
+
+    //add property id to each log
+    try {
+      Object.keys(logs).forEach(function(log) {
+        logs[log]['id'] = log;
+      });
+    } catch (error) {
+      console.log('can not read any logs');
+    }
+
+    return logs;
   }
 
   async update_fill(oldValue, newValue, row, column) {
@@ -309,33 +351,6 @@ export default class CarEventsTimeline extends Component {
     }
   }
 
-  create_event() {
-    let event = (
-      <VerticalTimelineElement
-        className="vertical-timeline-element--work"
-        contentStyle={{
-          background: 'rgb(33, 150, 243)',
-          color: '#fff'
-        }}
-        contentArrowStyle={{
-          borderRight: '7px solid  rgb(33, 150, 243)'
-        }}
-        date="2011 - present"
-        iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
-      >
-        <h3 className="vertical-timeline-element-title">Creative Director</h3>
-        <p>
-          Creative Direction, User Experience, Visual Design, Project
-          Management, Team Leading
-        </p>
-      </VerticalTimelineElement>
-    );
-
-    this.setState(previousState => ({
-      events: [...previousState.events, event]
-    }));
-  }
-
   create_fill_event(
     fuelamount = 0,
     price = 0,
@@ -364,35 +379,50 @@ export default class CarEventsTimeline extends Component {
       </VerticalTimelineElement>
     );
 
+    this.add_timeline_event(event);
+  }
+
+  create_log_event(
+    what = '',
+    price = 0,
+    odometer = 0,
+    timestamp = 0,
+    user = '',
+    who = ''
+  ) {
+    let event = (
+      <VerticalTimelineElement
+        className="vertical-timeline-element--work"
+        contentStyle={{
+          background: 'rgb(242, 157, 24)',
+          color: '#fff'
+        }}
+        contentArrowStyle={{
+          borderRight: '7px solid  rgb(242, 157, 24)'
+        }}
+        date={time_formatter(timestamp)}
+        iconStyle={{ background: 'rgb(242, 157, 24)', color: '#fff' }}
+      >
+        <h3 className="vertical-timeline-element-title">Log</h3>
+        <div>Was: {what}</div>
+        <div>Kilometerstand: {odometer_formatter(odometer)}</div>
+        <div>Preis: {price_formatter(price)}</div>
+        <div>Ausgeführt durch: {who}</div>
+        <div>Erfasser: {user}</div>
+      </VerticalTimelineElement>
+    );
+
+    this.add_timeline_event(event);
+  }
+
+  add_timeline_event(event) {
     this.setState(previousState => ({
       events: [...previousState.events, event]
     }));
   }
 
   get_timeline_events() {
-    let rt_val = '';
-
-    rt_val = (
-      <VerticalTimelineElement
-        className="vertical-timeline-element--work"
-        contentStyle={{
-          background: 'rgb(33, 150, 243)',
-          color: '#fff'
-        }}
-        contentArrowStyle={{
-          borderRight: '7px solid  rgb(33, 150, 243)'
-        }}
-        date="2011 - present"
-        iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
-      >
-        <h3 className="vertical-timeline-element-title">Creative Director</h3>
-        <p>
-          Creative Direction, User Experience, Visual Design, Project
-          Management, Team Leading
-        </p>
-      </VerticalTimelineElement>
-    );
-
+    console.log(this.state.events);
     return this.state.events;
   }
 
@@ -422,23 +452,7 @@ export default class CarEventsTimeline extends Component {
           </Row>
           <Row>
             <h2>Events</h2>
-            <VerticalTimeline>
-              {this.get_timeline_events()}
-
-              <VerticalTimelineElement
-                className="vertical-timeline-element--work"
-                date="2010 - 2011"
-                iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
-              >
-                <h3 className="vertical-timeline-element-title">
-                  Art Director
-                </h3>
-                <h4 className="vertical-timeline-element-subtitle">
-                  San Francisco, CA
-                </h4>
-                <p>This and that</p>
-              </VerticalTimelineElement>
-            </VerticalTimeline>
+            <VerticalTimeline>{this.get_timeline_events()}</VerticalTimeline>
           </Row>
           <Row>
             <div className="py-5 mx-3">
