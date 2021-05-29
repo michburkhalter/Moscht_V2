@@ -29,6 +29,9 @@ function Header() {
               <Link className="nav-item nav-link mr-3" to="/overview">
                 Overview
               </Link>
+              <Link className="nav-item nav-link mr-3" to="/eventstimeline">
+                Events Timeline
+              </Link>
               <Link className="nav-item nav-link mr-3" to="/addfill">
                 Add Fill
               </Link>
@@ -36,7 +39,7 @@ function Header() {
                 Fills Table
               </Link>
               <Link className="nav-item nav-link mr-3" to="/logs">
-                Log Event
+                Log Table
               </Link>
               <Link className="nav-item nav-link mr-3" to="/managecars">
                 Manage Cars

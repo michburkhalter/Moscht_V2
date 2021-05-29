@@ -15,6 +15,7 @@ import ManageCars from './pages/ManageCars';
 import Profile from './pages/Profile';
 import AddFill from './pages/AddFill';
 import DetailsTable from './pages/DetailsTable';
+import CarEventsTimeline from './pages/CarEventsTimeline';
 import { auth } from './services/firebase';
 import './style.css';
 
@@ -119,6 +120,11 @@ class App extends Component {
             authenticated={this.state.authenticated}
             component={DetailsTable}
           />
+          <PrivateRoute
+            path="/eventstimeline"
+            authenticated={this.state.authenticated}
+            component={CarEventsTimeline}
+          />          
         </Switch>
       </Router>
     );
