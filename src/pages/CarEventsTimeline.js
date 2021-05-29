@@ -299,8 +299,15 @@ export default class CarEventsTimeline extends Component {
     odometer = 0,
     timestamp = 0,
     user = '',
-    who = ''
+    who = '',
+    file = '',
+    file_url = ''
   ) {
+    let the_file = '';
+    if ((file != '')&&(file != '-')) {
+      the_file = <div>Attachement: <a href={file_url}>{ file }</a></div>;
+    }
+
     let event = (
       <VerticalTimelineElement
         className="vertical-timeline-element--work"
@@ -320,6 +327,7 @@ export default class CarEventsTimeline extends Component {
         <div>Preis: {price_formatter(price)}</div>
         <div>Ausgeführt durch: {who}</div>
         <div>Erfasser: {user}</div>
+        {the_file}
       </VerticalTimelineElement>
     );
     return event;
@@ -344,16 +352,31 @@ export default class CarEventsTimeline extends Component {
             )
           );
         } else if ('log' in event) {
-          ev.push(
-            this.create_log_event(
-              event.log.what,
-              event.log.price,
-              event.log.odometer,
-              event.log.timestamp,
-              event.log.user,
-              event.log.who
-            )
-          );
+          if ('file' in event.log) {
+            ev.push(
+              this.create_log_event(
+                event.log.what,
+                event.log.price,
+                event.log.odometer,
+                event.log.timestamp,
+                event.log.user,
+                event.log.who,
+                event.log.file,
+                event.log.file_url
+              )
+            );
+          } else {
+            ev.push(
+              this.create_log_event(
+                event.log.what,
+                event.log.price,
+                event.log.odometer,
+                event.log.timestamp,
+                event.log.user,
+                event.log.who
+              )
+            );
+          }
         }
       });
     }
