@@ -284,8 +284,8 @@ export default class CarEventsTimeline extends Component {
         icon={<FaGasPump />}
       >
         <h3 className="vertical-timeline-element-title">Tankung</h3>
-        <div>Menge: {fuel_amount_formatter(fuelamount)}</div>
         <div>Kilometerstand: {odometer_formatter(odometer)}</div>
+        <div>Menge: {fuel_amount_formatter(fuelamount)}</div>
         <div>Preis: {price_formatter(price)}</div>
         <div>Verbrauch: {fuel_efficiency_formatter(fuel_efficiency)}</div>
       </VerticalTimelineElement>
@@ -315,8 +315,7 @@ export default class CarEventsTimeline extends Component {
         iconStyle={{ background: 'rgb(242, 157, 24)', color: '#fff' }}
         icon={<FaTools />}
       >
-        <h3 className="vertical-timeline-element-title">Log</h3>
-        <div>Was: {what}</div>
+        <h3 className="vertical-timeline-element-title">{what}</h3>
         <div>Kilometerstand: {odometer_formatter(odometer)}</div>
         <div>Preis: {price_formatter(price)}</div>
         <div>Ausgeführt durch: {who}</div>
