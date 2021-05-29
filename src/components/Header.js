@@ -39,7 +39,7 @@ function Header() {
                 Fills Table
               </Link>
               <Link className="nav-item nav-link mr-3" to="/logs">
-                Log Event
+                Log Table
               </Link>
               <Link className="nav-item nav-link mr-3" to="/managecars">
                 Manage Cars
