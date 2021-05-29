@@ -113,11 +113,11 @@ export default class CarEventsTimeline extends Component {
                   db_events.push({ log: log, odometer: log.odometer })
                 );
               }
-              console.log('ö5as6ien');
+
               let tmp2 = Object.values(db_events).sort(
                 this.compare_events_by_odometer_desc
               );
-              console.log(tmp2);
+
               this.setState({ db_events: tmp2 });
             }
           });
@@ -207,30 +207,28 @@ export default class CarEventsTimeline extends Component {
       this.setState({ writeError: error.message });
     }
 
-    try {
-      this.setState({
-        events: []
-      });
+    let db_events = [];
 
-      Object.values(this.get_fills_of_a_car(id)).forEach(fill =>
-        this.create_fill_event(
-          fill.fuelamount,
-          fill.price,
-          fill.odometer,
-          fill.timestamp,
-          fill.fuel_efficiency
-        )
+    try {
+      console.log('lsiebn');
+      let fills = this.get_fills_of_a_car(id);
+      let logs = this.get_logs_of_a_car(id);
+      if (fills !== undefined) {
+        Object.values(fills).forEach(fill =>
+          db_events.push({ fill: fill, odometer: fill.odometer })
+        );
+      }
+      if (logs !== undefined) {
+        Object.values(logs).forEach(log =>
+          db_events.push({ log: log, odometer: log.odometer })
+        );
+      }
+
+      let tmp2 = Object.values(db_events).sort(
+        this.compare_events_by_odometer_desc
       );
-      Object.values(this.get_logs_of_a_car(id)).forEach(log =>
-        this.create_log_event(
-          log.what,
-          log.price,
-          log.odometer,
-          log.timestamp,
-          log.user,
-          log.who
-        )
-      );
+
+      this.setState({ db_events: tmp2 });
     } catch (error) {
       console.log('no fills available');
     }
