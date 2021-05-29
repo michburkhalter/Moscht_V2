@@ -210,7 +210,6 @@ export default class CarEventsTimeline extends Component {
     let db_events = [];
 
     try {
-      console.log('lsiebn');
       let fills = this.get_fills_of_a_car(id);
       let logs = this.get_logs_of_a_car(id);
       if (fills !== undefined) {
