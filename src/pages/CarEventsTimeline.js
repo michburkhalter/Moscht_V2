@@ -41,7 +41,8 @@ export default class CarEventsTimeline extends Component {
       writeError: null,
       width: 0,
       height: 0,
-      events: []
+      events: [],
+      db_events: []
     };
 
     this.car_selected = this.car_selected.bind(this);
@@ -104,26 +105,11 @@ export default class CarEventsTimeline extends Component {
               let logs = this.get_logs_of_a_car(this.state.selectedCar);
               if (fills !== undefined) {
                 Object.values(fills).forEach(fill =>
-                  //this.create_fill_event(
-                  //  fill.fuelamount,
-                  //  fill.price,
-                  //  fill.odometer,
-                  //  fill.timestamp,
-                  //  fill.fuel_efficiency
-                  //)
                   db_events.push({ fill: fill, odometer: fill.odometer })
                 );
               }
               if (logs !== undefined) {
                 Object.values(logs).forEach(log =>
-                  //this.create_log_event(
-                  //  log.what,
-                  //  log.price,
-                  //  log.odometer,
-                  //  log.timestamp,
-                  //  log.user,
-                  //  log.who
-                  //)
                   db_events.push({ log: log, odometer: log.odometer })
                 );
               }
@@ -132,27 +118,7 @@ export default class CarEventsTimeline extends Component {
                 this.compare_events_by_odometer_desc
               );
               console.log(tmp2);
-
-              Object.values(tmp2).forEach(event => {
-                if ('fill' in event) {
-                  this.create_fill_event(
-                    event.fill.fuelamount,
-                    event.fill.price,
-                    event.fill.odometer,
-                    event.fill.timestamp,
-                    event.fill.fuel_efficiency
-                  )
-                }else if('log' in event){
-                  this.create_log_event(
-                    event.log.what,
-                    event.log.price,
-                    event.log.odometer,
-                    event.log.timestamp,
-                    event.log.user,
-                    event.log.who
-                  )
-                }
-              });
+              this.setState({ db_events: tmp2 });
             }
           });
         });
@@ -207,15 +173,6 @@ export default class CarEventsTimeline extends Component {
     return comparison;
   }
 
-  calculate_fuel_consumption_of_leg(fuelamount, odometer, ref_odometer) {
-    let average_consumption = 0;
-
-    average_consumption = fuelamount / (odometer - ref_odometer);
-    average_consumption = Number((average_consumption * 100).toFixed(1));
-
-    return average_consumption;
-  }
-
   get_car_by_id(car_id) {
     let retval = undefined;
     this.state.filtered_cars.forEach(car => {
@@ -234,19 +191,6 @@ export default class CarEventsTimeline extends Component {
       if (car !== undefined) {
         name = car.name;
       }
-    }
-    return name;
-  }
-
-  carFormatter(cell, row, rowIndex, formatExtraData) {
-    let name = '';
-
-    if (cell !== '') {
-      formatExtraData.forEach(car => {
-        if (car.car_id === cell) {
-          name = car.name;
-        }
-      });
     }
     return name;
   }
@@ -328,55 +272,6 @@ export default class CarEventsTimeline extends Component {
     return logs;
   }
 
-  async update_fill(oldValue, newValue, row, column) {
-    try {
-      if (!row.hasOwnProperty('fuel_efficiency')) {
-        row.fuel_efficiency = '-';
-      }
-
-      await db
-        .ref('cars/' + this.state.selectedCar + '/fills/' + row['id'])
-        .update({
-          price: row['price'],
-          odometer: row['odometer'],
-          fuelamount: row['fuelamount'],
-          timestamp: parseInt(row['timestamp']),
-          user: row['user'],
-          fuel_efficiency: row['fuel_efficiency']
-        });
-    } catch (error) {
-      this.setState({ updateError: error.message });
-    }
-  }
-
-  async del_db_fill_entry(id) {
-    try {
-      await db.ref('cars/' + this.state.selectedCar + '/fills/' + id).remove();
-    } catch (error) {
-      this.setState({ updateError: error.message });
-    }
-  }
-
-  async delete_fill(row, isSelect) {
-    if (isSelect === true) {
-      confirmAlert({
-        title: 'Confirm to delete',
-        message: 'Are you sure to delete this fill from the db?',
-        buttons: [
-          {
-            label: 'Yes',
-            onClick: () => {
-              this.del_db_fill_entry(row['id']);
-            }
-          },
-          {
-            label: 'No'
-          }
-        ]
-      });
-    }
-  }
-
   create_fill_event(
     fuelamount = 0,
     price = 0,
@@ -404,8 +299,7 @@ export default class CarEventsTimeline extends Component {
         <div>Verbrauch: {fuel_efficiency_formatter(fuel_efficiency)}</div>
       </VerticalTimelineElement>
     );
-
-    this.add_timeline_event(event);
+    return event;
   }
 
   create_log_event(
@@ -437,33 +331,40 @@ export default class CarEventsTimeline extends Component {
         <div>Erfasser: {user}</div>
       </VerticalTimelineElement>
     );
-
-    this.add_timeline_event(event);
-  }
-
-  add_timeline_event(event) {
-    this.setState(previousState => ({
-      events: [...previousState.events, event]
-    }));
-
-    //let events = this.state.events;
-    //events = events.concat(event);
-    //let tmp2 = Object.values(events).sort(this.compare_events_by_odometer_desc);
-    //console.log(tmp2)
-    //this.setState({ events:tmp2 });
+    return event;
   }
 
   get_timeline_events() {
     let ev = [];
-    let eventslength = this.state.events.length;
-    let events = this.state.events;
+    let eventslength = this.state.db_events.length;
+    let events = this.state.db_events;
 
     if (eventslength > 1) {
       console.log('OMG33');
-      let tmp2 = Object.values(events).sort(
-        this.compare_events_by_odometer_desc
-      );
-      return tmp2;
+      Object.values(events).forEach(event => {
+        if ('fill' in event) {
+          ev.push(
+            this.create_fill_event(
+              event.fill.fuelamount,
+              event.fill.price,
+              event.fill.odometer,
+              event.fill.timestamp,
+              event.fill.fuel_efficiency
+            )
+          );
+        } else if ('log' in event) {
+          ev.push(
+            this.create_log_event(
+              event.log.what,
+              event.log.price,
+              event.log.odometer,
+              event.log.timestamp,
+              event.log.user,
+              event.log.who
+            )
+          );
+        }
+      });
     }
     return ev;
   }
