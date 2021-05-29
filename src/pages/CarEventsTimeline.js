@@ -3,16 +3,9 @@ import Header from '../components/Header';
 import { auth } from '../services/firebase';
 import { db } from '../services/firebase';
 import Dropdown from 'react-bootstrap/Dropdown';
-import Form from 'react-bootstrap/Form';
 import { Container, Row, Col } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import { ListGroup } from 'react-bootstrap';
-import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import BootstrapTable from 'react-bootstrap-table-next';
-import paginationFactory from 'react-bootstrap-table2-paginator';
-import cellEditFactory from 'react-bootstrap-table2-editor';
-import { confirmAlert } from 'react-confirm-alert'; // Import
-import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { FaBeer, FaTools, FaGasPump } from 'react-icons/fa';
+
 import {
   VerticalTimeline,
   VerticalTimelineElement
@@ -288,6 +281,7 @@ export default class CarEventsTimeline extends Component {
         }}
         date={time_formatter(timestamp)}
         iconStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}
+        icon={<FaGasPump />}
       >
         <h3 className="vertical-timeline-element-title">Tankung</h3>
         <div>Menge: {fuel_amount_formatter(fuelamount)}</div>
@@ -319,6 +313,7 @@ export default class CarEventsTimeline extends Component {
         }}
         date={time_formatter(timestamp)}
         iconStyle={{ background: 'rgb(242, 157, 24)', color: '#fff' }}
+        icon={<FaTools />}
       >
         <h3 className="vertical-timeline-element-title">Log</h3>
         <div>Was: {what}</div>
