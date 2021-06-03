@@ -13,7 +13,7 @@ export default class HomePage extends Component {
         <section>
           <div className="jumbotron jumbotron-fluid py-5">
             <div className="container text-center py-5">
-              <h1 className="display-4">Welcome to Moscht</h1>
+              <h1 className="display-4">Welcome to Moscht2</h1>
               <p className="lead">Get insights into your fuel consumption</p>
               <div className="mt-4">
                 <Link className="btn btn-primary px-5 mr-3" to="/signup">Create New Account</Link>
