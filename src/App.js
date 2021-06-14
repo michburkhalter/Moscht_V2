@@ -9,7 +9,6 @@ import Home from './pages/Home';
 import Chat from './pages/Chat';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
-import Overview from './pages/Overview';
 import Logs from './pages/Logs';
 import ManageCars from './pages/ManageCars';
 import Profile from './pages/Profile';
