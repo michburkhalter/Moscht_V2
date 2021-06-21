@@ -22,12 +22,11 @@ body {
   color: white;
 }
 
-@media screen and (max-width: 767px) {
-  .form-control {
-    width: 100%;
-  }
-
-  .chat-area .chat-bubble {
-    max-width: 250px;
+.vertical-timeline-element-date {
+  color: #ffffff;
+}
+@media only screen and (min-width: 1170px) {
+  .vertical-timeline-element-date {
+    color: #494949;
   }
 }
