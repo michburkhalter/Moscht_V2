@@ -1,15 +1,8 @@
+import moment from 'moment';
+
 export function time_formatter(cell, row, rowIndex, formatExtraData) {
-  const d = new Date(cell);
-
-  const day = String(d.getDate()).padStart(2, '0');
-  const month = String(d.getMonth() +1).padStart(2, '0');
-  const year = String(d.getFullYear());//.padStart(4,'0');
-  const hours = String(d.getHours()).padStart(2,'0');
-  const minutes = String(d.getMinutes()).padStart(2,'0');
-
-  const time = `${day}.${month}.${year} ${hours}:${minutes}`;
-
-  return time;
+  const format = 'DD.MM.YYYY hh:mm';
+  return moment.unix(cell / 1000).format(format);
 }
 
 export function fuel_efficiency_formatter(
