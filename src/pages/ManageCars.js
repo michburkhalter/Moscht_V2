@@ -1,17 +1,16 @@
-import React, { Component } from "react";
-import Header from "../components/Header";
-import { auth } from "../services/firebase";
-import { db } from "../services/firebase";
-import Form from 'react-bootstrap/Form'
+import React, { Component } from 'react';
+import Header from '../components/Header';
+import { auth } from '../services/firebase';
+import { db } from '../services/firebase';
+import Form from 'react-bootstrap/Form';
 import { Container, Row, Col } from 'react-bootstrap';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 //import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory from 'react-bootstrap-table2-editor';
-import Button from 'react-bootstrap/Button'
+import Button from 'react-bootstrap/Button';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-
 
 export default class Overview extends Component {
   constructor(props) {
@@ -25,8 +24,8 @@ export default class Overview extends Component {
       plate: '',
       readError: null,
       writeError: null,
-      loadingCars: false,
-      };
+      loadingCars: false
+    };
     this.handleChange_Name = this.handleChange_Name.bind(this);
     this.handleChange_Brand = this.handleChange_Brand.bind(this);
     this.handleChange_Model = this.handleChange_Model.bind(this);
@@ -37,13 +36,15 @@ export default class Overview extends Component {
   async componentDidMount() {
     this.setState({ readError: null, loadingCars: true });
     try {
-      db.ref("cars").on("value", snapshot => {
+      db.ref('cars').on('value', snapshot => {
         let cars = [];
-        snapshot.forEach((snap) => {
+        snapshot.forEach(snap => {
           cars.push(snap.val());
-          cars[cars.length-1].id = snap.key;
+          cars[cars.length - 1].id = snap.key;
         });
-        cars.sort(function (a, b) { return a.timestamp - b.timestamp })
+        cars.sort(function(a, b) {
+          return a.timestamp - b.timestamp;
+        });
         this.setState({ cars });
         this.setState({ loadingCars: false });
       });
@@ -58,19 +59,19 @@ export default class Overview extends Component {
     });
   }
 
-  handleChange_Brand(event){
+  handleChange_Brand(event) {
     this.setState({
       brand: event.target.value
     });
   }
 
-  handleChange_Model(event){
+  handleChange_Model(event) {
     this.setState({
       model: event.target.value
     });
   }
 
-  handleChange_Plate(event){
+  handleChange_Plate(event) {
     this.setState({
       plate: event.target.value
     });
@@ -81,29 +82,26 @@ export default class Overview extends Component {
     this.setState({ writeError: null });
 
     try {
-      db.ref("cars").push({
-        name: this.state.name,
-        brand: this.state.brand,
-        model: this.state.model,
-        plate: this.state.plate,
-        timestamp: Date.now(),
-      }).then(id => {
-        id = id.path.pieces_[id.path.pieces_.length - 1];
+      db.ref('cars')
+        .push({
+          name: this.state.name,
+          brand: this.state.brand,
+          model: this.state.model,
+          plate: this.state.plate,
+          timestamp: Date.now()
+        })
+        .then(id => {
+          db.ref('user_settings/' + this.state.user.uid + '/ownedCars').push({
+            id: id.key
+          });
 
-        db.ref('user_settings/' + this.state.user.uid + '/ownedCars').push({
-          'id' : id,
+          db.ref('user_settings/' + this.state.user.uid).update({
+            selectedCar: id.key
+          });
+          //resolve();
         });
 
-        db.ref('user_settings/' + this.state.user.uid).update({
-          selectedCar: id,
-        });
-        //resolve();
-      });
-
-      this.setState({ name: '',
-                      brand: '',
-                      model: '',
-                      plate: '' });
+      this.setState({ name: '', brand: '', model: '', plate: '' });
     } catch (error) {
       this.setState({ writeError: error.message });
     }
@@ -111,11 +109,12 @@ export default class Overview extends Component {
 
   formatTime(timestamp) {
     const d = new Date(timestamp);
-    const time = `${d.getDate()}/${(d.getMonth()+1)}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
+    const time = `${d.getDate()}/${d.getMonth() +
+      1}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
     return time;
   }
 
-  async update_car(oldValue, newValue, row, column){
+  async update_car(oldValue, newValue, row, column) {
     try {
       await db.ref('cars/' + row['id']).update({
         name: row['name'],
@@ -128,84 +127,92 @@ export default class Overview extends Component {
     }
   }
 
-  async del_db_car_entry(id){
-   
-   const mPostReference = await db.ref('user_settings/' + this.state.user.uid + '/ownedCars/');
-   const snapshot = await mPostReference.once('value');
-   const value = snapshot.val();
-   let ids_to_remove = [];
+  async del_db_car_entry(id) {
+    const mPostReference = await db.ref(
+      'user_settings/' + this.state.user.uid + '/ownedCars/'
+    );
+    const snapshot = await mPostReference.once('value');
+    const value = snapshot.val();
+    let ids_to_remove = [];
 
-   Object.entries(value).forEach((entry) => {
-      if(id === entry[1]['id']){
-         ids_to_remove.push(entry[0]);
-       }
+    Object.entries(value).forEach(entry => {
+      if (id === entry[1]['id']) {
+        ids_to_remove.push(entry[0]);
+      }
     });
 
     try {
       //first remove car from db.cars
-      db.ref('cars/' + id).remove()
-      //then remove car id from owned cars
-      .then((value) => {
-        ids_to_remove.forEach((idtrm) => {
-          console.log("idtrm : " + id)
-          db.ref('user_settings/' + this.state.user.uid + '/ownedCars/' + idtrm).remove(); 
+      db.ref('cars/' + id)
+        .remove()
+        //then remove car id from owned cars
+        .then(value => {
+          ids_to_remove.forEach(idtrm => {
+            console.log('idtrm : ' + id);
+            db.ref(
+              'user_settings/' + this.state.user.uid + '/ownedCars/' + idtrm
+            ).remove();
+          });
         });
-      });
     } catch (error) {
       this.setState({ updateError: error.message });
     }
   }
 
-  async delete_car(row, isSelect){
-    if(isSelect === true){
+  async delete_car(row, isSelect) {
+    if (isSelect === true) {
       confirmAlert({
-      title: 'Confirm to delete',
-      message: 'Are you sure to delete this car from the db?',
-      buttons: [
-        {
-          label: 'Yes',
-          onClick: () => {this.del_db_car_entry(row['id'])}
-        },
-        {
-          label: 'No'
-        }
-      ]
+        title: 'Confirm to delete',
+        message: 'Are you sure to delete this car from the db?',
+        buttons: [
+          {
+            label: 'Yes',
+            onClick: () => {
+              this.del_db_car_entry(row['id']);
+            }
+          },
+          {
+            label: 'No'
+          }
+        ]
       });
     }
   }
 
   render() {
     const car_columns = [
-        {
-          dataField: 'id',
-          text: 'Id',
-          hidden: true
-        },
-        {
-          dataField: 'name',
-          text: 'Name',
-          sort: true,
-        },
-        {
-          dataField: 'brand',
-          text: 'Brand',
-          sort: true
-        },
-        {
-          dataField: 'model',
-          text: 'Model',
-          sort: true
-        },
-        {
-          dataField: 'plate',
-          text: 'Plate',
-          sort: true
-        },
-      ]; 
-    const defaultSorted = [{
-      dataField: 'name',
-      order: 'desc'
-    }];
+      {
+        dataField: 'id',
+        text: 'Id',
+        hidden: true
+      },
+      {
+        dataField: 'name',
+        text: 'Name',
+        sort: true
+      },
+      {
+        dataField: 'brand',
+        text: 'Brand',
+        sort: true
+      },
+      {
+        dataField: 'model',
+        text: 'Model',
+        sort: true
+      },
+      {
+        dataField: 'plate',
+        text: 'Plate',
+        sort: true
+      }
+    ];
+    const defaultSorted = [
+      {
+        dataField: 'name',
+        order: 'desc'
+      }
+    ];
     const selectRow = {
       mode: 'checkbox',
       clickToSelect: false,
@@ -224,29 +231,34 @@ export default class Overview extends Component {
             </div>
           </Row>
           <Row>
-            <BootstrapTable 
-              keyField='id' 
-              data={this.state.cars} 
-              columns={car_columns} 
+            <BootstrapTable
+              keyField="id"
+              data={this.state.cars}
+              columns={car_columns}
               striped
               hover
               condensed
-              bordered={ false }
-              defaultSorted={ defaultSorted }
+              bordered={false}
+              defaultSorted={defaultSorted}
               noDataIndication="Table is Empty"
-              //pagination={ paginationFactory() } 
-              cellEdit={ cellEditFactory({
+              //pagination={ paginationFactory() }
+              cellEdit={cellEditFactory({
                 mode: 'click',
-                onStartEdit: (row, column, rowIndex, columnIndex) => { console.log('onStartEdit Cell!!'); },
-                beforeSaveCell: (oldValue, newValue, row, column) => { console.log('Before Saving Cell!!'); },
-                afterSaveCell: (oldValue, newValue, row, column) => { this.update_car(oldValue, newValue, row, column); }
-              }) }
-              selectRow={ selectRow }
+                onStartEdit: (row, column, rowIndex, columnIndex) => {
+                  console.log('onStartEdit Cell!!');
+                },
+                beforeSaveCell: (oldValue, newValue, row, column) => {
+                  console.log('Before Saving Cell!!');
+                },
+                afterSaveCell: (oldValue, newValue, row, column) => {
+                  this.update_car(oldValue, newValue, row, column);
+                }
+              })}
+              selectRow={selectRow}
             />
           </Row>
           <Row>
-            <div className="px-3">
-            </div>
+            <div className="px-3" />
           </Row>
           <Row>
             <h2>Add new car</h2>
@@ -255,27 +267,39 @@ export default class Overview extends Component {
                 <Form.Row>
                   <Form.Group as={Col} controlId="car_name_id">
                     <Form.Label>Name</Form.Label>
-                    <Form.Control onChange={this.handleChange_Name} value={this.state.name}/>
+                    <Form.Control
+                      onChange={this.handleChange_Name}
+                      value={this.state.name}
+                    />
                   </Form.Group>
-                  
+
                   <Form.Group as={Col} controlId="car_brand_id">
                     <Form.Label>Marke</Form.Label>
-                    <Form.Control onChange={this.handleChange_Brand} value={this.state.brand}/>
+                    <Form.Control
+                      onChange={this.handleChange_Brand}
+                      value={this.state.brand}
+                    />
                   </Form.Group>
 
                   <Form.Group as={Col} controlId="car_model_id">
                     <Form.Label>Modell</Form.Label>
-                    <Form.Control onChange={this.handleChange_Model} value={this.state.model}/>
+                    <Form.Control
+                      onChange={this.handleChange_Model}
+                      value={this.state.model}
+                    />
                   </Form.Group>
 
                   <Form.Group as={Col} controlId="car_plate_id">
                     <Form.Label>Kennzeichen</Form.Label>
-                    <Form.Control onChange={this.handleChange_Plate} value={this.state.plate}/>
+                    <Form.Control
+                      onChange={this.handleChange_Plate}
+                      value={this.state.plate}
+                    />
                   </Form.Group>
                 </Form.Row>
               </div>
               <div className="px-3">
-                <Button variant="primary"className="px-5" type="submit">
+                <Button variant="primary" className="px-5" type="submit">
                   Submit
                 </Button>
               </div>
@@ -283,10 +307,11 @@ export default class Overview extends Component {
           </Row>
           <Row>
             <div className="py-5 mx-3">
-              Logged in as: <strong className="text-info">{this.state.user.email}</strong>
+              Logged in as:{' '}
+              <strong className="text-info">{this.state.user.email}</strong>
             </div>
           </Row>
-        </Container>       
+        </Container>
       </div>
     );
   }
