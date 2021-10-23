@@ -231,9 +231,9 @@ export default class Logs extends Component {
     var file_url = row.file_url;
 
     return (
-      <span>
-        <a href={file_url}>{ myArray[1] }</a>
-     </span>
+        <span>
+          <a href={file_url}>{myArray[1]}</a>
+        </span>
     );
   }
 
@@ -494,7 +494,7 @@ export default class Logs extends Component {
             {/* Fuel filling form */}
             <Form onSubmit={this.handleSubmit}>
               <div className="px-3">
-                <Form.Row>
+                <Row>
                   <Form.Group as={Col} controlId="log_what_id">
                     <Form.Label>Was</Form.Label>
                     <Form.Control as="textarea" rows="3" onChange={this.handleChange_LogWhat} value={this.state.log_what}/>
@@ -519,7 +519,7 @@ export default class Logs extends Component {
                     <Form.Label>Attachment</Form.Label>
                     <Form.Control type="file" onChange={this.handleChange_LogFile} />
                   </Form.Group>
-                </Form.Row>
+                </Row>
               </div>
               <div className="px-3">
                 <Button variant="primary"className="px-5" type="submit">

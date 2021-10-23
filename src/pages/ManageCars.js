@@ -264,7 +264,7 @@ export default class Overview extends Component {
             <h2>Add new car</h2>
             <Form onSubmit={this.handleSubmit}>
               <div className="px-3">
-                <Form.Row>
+                <Row>
                   <Form.Group as={Col} controlId="car_name_id">
                     <Form.Label>Name</Form.Label>
                     <Form.Control
@@ -296,7 +296,7 @@ export default class Overview extends Component {
                       value={this.state.plate}
                     />
                   </Form.Group>
-                </Form.Row>
+                </Row>
               </div>
               <div className="px-3">
                 <Button variant="primary" className="px-5" type="submit">

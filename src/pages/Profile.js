@@ -240,12 +240,12 @@ export default class Profile extends Component {
             {/* Fuel filling form */}
             <Form onSubmit={this.handleSubmit}>
               <div className="px-3">
-                <Form.Row>
+                <Row>
                   <Form.Group as={Col} controlId="car_id">
                     <Form.Label>Car ID</Form.Label>
                     <Form.Control onChange={this.handleChange_CarID} value={this.state.car_id}/>
                   </Form.Group>
-                </Form.Row>
+                </Row>
               </div>
               <div className="px-3">
                 <Button variant="primary"className="px-5" type="submit">
