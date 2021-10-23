@@ -328,7 +328,7 @@ export default class AddFill extends Component {
           <Row className="py-1">
             {/* Fuel filling form */}
             <Form onSubmit={this.handleSubmit}>
-              <Form.Row>
+              <Row>
                 <Form.Group as={Col} controlId="odometer_id">
                   <Form.Label>Kilometerstand</Form.Label>
                   <Form.Control
@@ -337,7 +337,8 @@ export default class AddFill extends Component {
                     value={this.state.odometer}
                   />
                 </Form.Group>
-
+              </Row>
+              <Row>
                 <Form.Group as={Col} controlId="fuelamount_id">
                   <Form.Label>Benzinmenge</Form.Label>
                   <Form.Control
@@ -346,7 +347,8 @@ export default class AddFill extends Component {
                     value={this.state.fuelamount}
                   />
                 </Form.Group>
-
+              </Row>
+              <Row>
                 <Form.Group as={Col} controlId="price_id">
                   <Form.Label>Preis</Form.Label>
                   <Form.Control
@@ -355,7 +357,7 @@ export default class AddFill extends Component {
                     value={this.state.price}
                   />
                 </Form.Group>
-              </Form.Row>
+              </Row>
               <Button variant="primary" className="px-5" type="submit">
                 Submit Fill
               </Button>
