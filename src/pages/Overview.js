@@ -4,19 +4,11 @@ import {auth, db} from "../services/firebase";
 import Dropdown from 'react-bootstrap/Dropdown';
 import {Col, Container, ListGroup, Row} from 'react-bootstrap';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import {confirmAlert} from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import {ToastContainer} from 'react-toastify';
-
+import GaugeChart from 'react-gauge-chart'
 import 'react-toastify/dist/ReactToastify.css';
-import {show_toast_failure, show_toast_success} from "../helpers/toast";
-import {
-    fuel_amount_formatter,
-    fuel_efficiency_formatter,
-    odometer_formatter,
-    price_formatter,
-    time_formatter
-} from "../helpers/datatable_formatters";
+
 
 export default class Overview extends Component {
     constructor(props) {
@@ -310,6 +302,16 @@ export default class Overview extends Component {
                         </div>
                     </Row>
                     <Row>
+                        <Col>
+                            <GaugeChart id="gauge-chart3"
+                                        nrOfLevels={10}
+                                        colors={["#FF5F6D", "#FFC371"]}
+                                        arcWidth={0.3}
+                                        percent={this.state.average_consumption}
+                                        textColor={"#000000"}
+                                        formatTextValue={value => value+' l/100km'}
+                            />
+                        </Col>
                         <Col>
                             <h2>Stats</h2>
                             <ListGroup>
