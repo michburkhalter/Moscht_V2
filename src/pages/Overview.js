@@ -3,25 +3,25 @@ import Header from "../components/Header";
 import {auth, db} from "../services/firebase";
 import Dropdown from 'react-bootstrap/Dropdown';
 import {Col, Container, ListGroup, Row} from 'react-bootstrap';
+import 'zingchart/es6';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import {ToastContainer} from 'react-toastify';
-import GaugeChart from 'react-gauge-chart'
-import 'react-toastify/dist/ReactToastify.css';
+import RadialGauge from 'canvas-gauges'
 
+import 'react-toastify/dist/ReactToastify.css';
+import ZingChart from "zingchart-react";
 
 export default class Overview extends Component {
     constructor(props) {
         super(props);
         this.state = {
             user: auth().currentUser,
+            datatable_rows: [],
             user_settings: {},
             cars: [],
             filtered_cars: [],
             owned_cars: [],
-            fuelamount: '',
-            odometer: '',
-            price: '',
             selectedCar: '',
             stats: {
                 nbr_of_fills: '',
@@ -32,10 +32,38 @@ export default class Overview extends Component {
                 average_consumption: '',
             },
             readError: null,
-            writeError: null
+            writeError: null,
+            gauge_consumption: {
+                type: 'gauge',
+                'scale-r': {
+                    aperture: 200,     //Specify your scale range.
+                    values: "0:10:1" //Provide min/max/step scale values.
+                },
+                series: [{
+                    values: []
+                }],
+                height: 300,
+                width: 300,
+            },
+            gauge_volume: {
+                type: 'gauge',
+                'scale-r': {
+                    aperture: 200,     //Specify your scale range.
+                    values: "0:70:5" //Provide min/max/step scale values.
+                },
+                series: [{
+                    values: []
+                }],
+                height: 300,
+                width: 300,
+            },
+
         };
+        this.volume_gauge_ref = React.createRef();
+        this.average_gauge_ref = React.createRef();
 
         this.car_selected = this.car_selected.bind(this);
+
     }
 
     async componentDidMount() {
@@ -83,6 +111,10 @@ export default class Overview extends Component {
                         if (this.state.selectedCar !== undefined) {
                             let tmp = this.get_fills_of_a_car(this.state.selectedCar);
                             if (tmp !== undefined) {
+                                let tmp2 = Object.values(tmp);
+                                this.setState({datatable_rows: tmp2})
+                                this.feed_consumption_gauge(tmp)
+                                this.feed_volume_gauge(tmp)
                                 this.calculate_stats(tmp)
                             }
                         }
@@ -90,10 +122,6 @@ export default class Overview extends Component {
                 });
             });
 
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.updateWindowDimensions);
     }
 
     filter_to_only_owned_cars(cars) {
@@ -135,31 +163,36 @@ export default class Overview extends Component {
         stats.total_volume_used = total_volume;
         stats.total_distance = max_odometer - min_odometer;
         this.setState({stats});
-
-        this.calculate_average_fill(fills);
-        this.calculate_average_consumption(fills);
     }
 
-    calculate_average_fill(fills){
+    feed_volume_gauge(fills) {
         let total_volume = 0;
         let nbr_of_fills = 0;
         let average_fill = NaN;
 
-        Object.keys(fills).forEach(function(fill) {
+        Object.keys(fills).forEach(function (fill) {
             total_volume = total_volume + parseInt(fills[fill].fuelamount, 10);
             nbr_of_fills = nbr_of_fills + 1;
         });
 
-        if(nbr_of_fills > 0){
+        if (nbr_of_fills > 0) {
             average_fill = total_volume / nbr_of_fills;
+
+            this.volume_gauge_ref.current.setseriesdata({
+                plotindex: 0,
+                data: {
+                    values: [average_fill]
+                }
+            });
 
             let stats = this.state.stats;
             stats.average_fill = average_fill.toFixed(1);
             this.setState({stats});
         }
+        //console.log(average_fill)
     }
 
-    calculate_average_consumption(fills){
+    feed_consumption_gauge(fills) {
         let nbr_of_fills = 0;
         let cur_odometer = 0;
         let prev_odometer = 0;
@@ -168,10 +201,10 @@ export default class Overview extends Component {
         let volume = 0;
         let average_consumption = 0;
 
-        Object.keys(fills).forEach(function(fill) {
+        Object.keys(fills).forEach(function (fill) {
             cur_odometer = parseInt(fills[fill].odometer, 10);
 
-            if(nbr_of_fills > 0){
+            if (nbr_of_fills > 0) {
                 distance = distance + (cur_odometer - prev_odometer);
                 volume = volume + parseInt(fills[fill].fuelamount, 10);
             }
@@ -181,14 +214,30 @@ export default class Overview extends Component {
         });
 
 
-        if (nbr_of_fills > 1){
+        if (nbr_of_fills > 1) {
             average_consumption = volume / distance;
             average_consumption = average_consumption * 100;
+
+            this.average_gauge_ref.current.setseriesdata({
+                plotindex: 0,
+                data: {
+                    values: [average_consumption]
+                }
+            });
+        } else {
+            average_consumption = 0;
+            this.average_gauge_ref.current.setseriesdata({
+                plotindex: 0,
+                data: {
+                    values: []
+                }
+            });
         }
         let stats = this.state.stats;
         stats.average_consumption = average_consumption.toFixed(1);
         this.setState({stats});
     }
+
 
     get_car_by_id(car_id) {
         let retval = undefined;
@@ -237,8 +286,18 @@ export default class Overview extends Component {
             this.setState({writeError: error.message});
         }
 
+        try {
+            this.setState({datatable_rows: Object.values(this.get_fills_of_a_car(id))});
+        } catch (error) {
+            console.log("no fills available")
+            this.setState({datatable_rows: []});
+        }
+
+
         let tmp = this.get_fills_of_a_car(id);
         if (tmp !== undefined) {
+            this.feed_consumption_gauge(tmp)
+            this.feed_volume_gauge(tmp)
             this.calculate_stats(tmp)
         }
         this.setState({
@@ -265,6 +324,8 @@ export default class Overview extends Component {
 
         return fills;
     }
+
+
     render() {
         return (
             <div className="m-5">
@@ -303,14 +364,12 @@ export default class Overview extends Component {
                     </Row>
                     <Row>
                         <Col>
-                            <GaugeChart id="gauge-chart3"
-                                        nrOfLevels={10}
-                                        colors={["#FF5F6D", "#FFC371"]}
-                                        arcWidth={0.3}
-                                        percent={this.state.average_consumption}
-                                        textColor={"#000000"}
-                                        formatTextValue={value => value+' l/100km'}
-                            />
+                            <h2>&empty; Verbrauch</h2>
+                            <ZingChart ref={this.average_gauge_ref} data={this.state.gauge_consumption}/>
+                        </Col>
+                        <Col>
+                            <h2>&empty; Tankmenge</h2>
+                            <ZingChart ref={this.volume_gauge_ref}  data={this.state.gauge_volume}/>
                         </Col>
                         <Col>
                             <h2>Stats</h2>
