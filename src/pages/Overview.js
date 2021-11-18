@@ -7,7 +7,6 @@ import 'zingchart/es6';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import {ToastContainer} from 'react-toastify';
-import RadialGauge from 'canvas-gauges'
 
 import 'react-toastify/dist/ReactToastify.css';
 import ZingChart from "zingchart-react";
@@ -369,7 +368,7 @@ export default class Overview extends Component {
                         </Col>
                         <Col>
                             <h2>&empty; Tankmenge</h2>
-                            <ZingChart ref={this.volume_gauge_ref}  data={this.state.gauge_volume}/>
+                            <ZingChart ref={this.volume_gauge_ref} data={this.state.gauge_volume}/>
                         </Col>
                         <Col>
                             <h2>Stats</h2>
