@@ -24,8 +24,8 @@
     "react-router-dom": "5.3.0",
     "react-toastify": "8.1.0",
     "react-vertical-timeline-component": "3.5.2",
-    "zingchart": "^2.9.7",
-    "zingchart-react": "^3.1.0"
+    "zingchart": "2.9.7",
+    "zingchart-react": "3.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
