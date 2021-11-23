@@ -46,9 +46,6 @@ export default class CarEventsTimeline extends Component {
         window.addEventListener('resize', this.updateWindowDimensions);
 
         const user_settings = ref(db, 'user_settings/' + this.state.user.uid);
-        const owned_cars = ref(db, 'user_settings/' + this.state.user.uid + '/ownedCars');
-        const cars = ref(db, 'cars');
-
         onValue(user_settings, snapshot => {
             console.log("onValue: user_settings");
             let user_settings = {};
@@ -64,6 +61,7 @@ export default class CarEventsTimeline extends Component {
             this.setState({user_settings});
         });
 
+        const owned_cars = ref(db, 'user_settings/' + this.state.user.uid + '/ownedCars');
         onValue(owned_cars, snapshot => {
             console.log("onValue: owned_cars");
             let owned_cars = [];
@@ -74,6 +72,7 @@ export default class CarEventsTimeline extends Component {
             this.setState({owned_cars});
         });
 
+        const cars = ref(db, 'cars');
         onValue(cars, snapshot => {
             console.log("onValue: cars");
             let cars = [];
