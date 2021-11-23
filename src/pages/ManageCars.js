@@ -16,7 +16,7 @@ export default class Overview extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: auth().currentUser,
+      user: auth.currentUser,
       cars: [],
       name: '',
       brand: '',

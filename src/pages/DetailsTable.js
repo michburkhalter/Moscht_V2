@@ -26,7 +26,7 @@ export default class DetailsTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: auth().currentUser,
+      user: auth.currentUser,
       datatable_rows: [],
       user_settings: {},
       cars: [],

@@ -24,7 +24,7 @@ export default class CarEventsTimeline extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: auth().currentUser,
+      user: auth.currentUser,
       user_settings: {},
       cars: [],
       filtered_cars: [],

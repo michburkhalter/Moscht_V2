@@ -12,6 +12,8 @@ import DetailsTable from './pages/DetailsTable';
 import CarEventsTimeline from './pages/CarEventsTimeline';
 import Overview from './pages/Overview'
 import {auth} from './services/firebase';
+import {onAuthStateChanged} from "firebase/auth";
+
 import './style.css';
 
 function PrivateRoute({component: Component, authenticated, ...rest}) {
@@ -56,7 +58,7 @@ class App extends Component {
     }
 
     componentDidMount() {
-        auth().onAuthStateChanged(user => {
+        onAuthStateChanged(auth, (user) => {
             if (user) {
                 this.setState({
                     authenticated: true,

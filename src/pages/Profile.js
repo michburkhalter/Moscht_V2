@@ -16,7 +16,7 @@ export default class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: auth().currentUser,
+      user: auth.currentUser,
       properties: [],
       user_settings: {},
       owned_cars: [],

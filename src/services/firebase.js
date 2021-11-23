@@ -3,10 +3,16 @@
 //import "firebase/database";
 //import "firebase/storage";
 
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/database';
-import 'firebase/compat/storage'
+//import firebase from 'firebase/compat/app';
+//import 'firebase/compat/auth';
+//import 'firebase/compat/database';
+//import 'firebase/compat/storage'
+
+import { initializeApp } from 'firebase/app';
+import { getDatabase } from "firebase/database";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getStorage, ref } from "firebase/storage";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyDSmdP7dUrzz11ozZs7RrN9PdPh2QeYAqE",
@@ -19,13 +25,19 @@ const firebaseConfig = {
   measurementId: "G-KX8TPRF55J"
 };
 
-firebase.initializeApp(firebaseConfig);
+//  firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-export const auth = firebase.auth;
-export const db = firebase.database();
+//export const auth = firebase.auth;
+export const auth = getAuth(app);
+
+//export const db = firebase.database();
+export const db = getDatabase(app);
 
 // Get a reference to the storage service, which is used to create references in your storage bucket
-export var storage = firebase.storage();
+//export var storage = firebase.storage();
+export const storage = getStorage(app);
 
 // Create a storage reference from our storage service
-export var storageRef = storage.ref();
+//export var storageRef = storage.ref();
+export const storageRef = ref(storage);
