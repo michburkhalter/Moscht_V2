@@ -48,52 +48,51 @@ export default class DetailsTable extends Component {
         const user_settings = ref(db, 'user_settings/' + this.state.user.uid);
         onValue(user_settings, snapshot => {
             let user_settings = {};
+            let owned_cars = [];
+            let selected_car = {};
+            console.log("onValue db.user_settings");
 
             snapshot.forEach(snap => {
                 if (snap.key === 'selectedCar') {
-                    console.log("onValue user_settings");
-
-                    this.setState({selectedCar: snap.val()});
+                    selected_car = snap.val();
                     this.update_fills_of_selected_car(snap.val());
+                }else if(snap.key === 'ownedCars'){
+                    for (const [key, value] of Object.entries(snap.val())) {
+                        owned_cars.push(value['id']);
+                    };
                 }
                 user_settings[snap.key] = snap.val();
             });
 
-            this.setState({user_settings});
-        });
+            this.setState({"user_settings":user_settings,
+                                "owned_cars": owned_cars,
+                                "selectedCar":selected_car},()=>{
+                const cars = ref(db, 'cars');
+                onValue(cars, snapshot => {
+                    let cars = [];
+                    console.log("onValue db.cars")
 
-        const owned_cars = ref(db, 'user_settings/' + this.state.user.uid + '/ownedCars');
-        onValue(owned_cars, snapshot => {
-                let owned_cars = [];
-                //console.log("owned")
-                snapshot.forEach(snap => {
-                    owned_cars.push(snap.val()['id']);
+                    snapshot.forEach(snap => {
+                        cars.push(snap.val());
+                        cars[cars.length - 1].car_id = snap.key;
+                    });
+
+                    let filtered_cars = this.filter_to_only_owned_cars(cars);
+                    this.setState({"filtered_cars":filtered_cars,
+                        "cars": cars}, () => {
+                        if (this.state.selectedCar !== undefined) {
+                            let tmp = this.get_fills_of_a_car(this.state.selectedCar);
+                            if (tmp !== undefined) {
+                                let tmp2 = Object.values(tmp).sort(this.compare_fills_by_odometer_desc);
+                                this.setState({datatable_rows: tmp2})
+                            }
+                        }
+                    });
                 });
-                this.setState({owned_cars});
-            }
-        );
-
-        const cars = ref(db, 'cars');
-        onValue(cars, snapshot => {
-            let cars = [];
-            snapshot.forEach(snap => {
-                cars.push(snap.val());
-                cars[cars.length - 1].car_id = snap.key;
-            });
-
-            let filtered_cars = this.filter_to_only_owned_cars(cars);
-            this.setState({filtered_cars});
-
-            this.setState({cars}, () => {
-                if (this.state.selectedCar !== undefined) {
-                    let tmp = this.get_fills_of_a_car(this.state.selectedCar);
-                    if (tmp !== undefined) {
-                        let tmp2 = Object.values(tmp).sort(this.compare_fills_by_odometer_desc);
-                        this.setState({datatable_rows: tmp2})
-                    }
-                }
             });
         });
+
+
     }
 
     componentWillUnmount() {
@@ -154,13 +153,14 @@ export default class DetailsTable extends Component {
     }
 
     get_car_by_id(car_id) {
-        let retval = undefined;
+        let ret_val = undefined;
+
         this.state.filtered_cars.forEach(car => {
             if (car.car_id === car_id) {
-                retval = car;
+                ret_val = car;
             }
         });
-        return retval;
+        return ret_val;
     }
 
     formatCar(car_id) {

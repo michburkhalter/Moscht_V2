@@ -51,38 +51,52 @@ export default class AddFill extends Component {
         const user_settings = ref(db, 'user_settings/' + this.state.user.uid);
         onValue(user_settings, snapshot => {
             let user_settings = {};
+            let owned_cars = [];
+            let selected_car = {};
+            console.log("onValue db.user_settings");
 
             snapshot.forEach(snap => {
                 if (snap.key === 'selectedCar') {
-                    this.setState({selectedCar: snap.val()});
+                    selected_car = snap.val();
+                }else if(snap.key === 'ownedCars'){
+                    for (const [key, value] of Object.entries(snap.val())) {
+                        owned_cars.push(value['id']);
+                    };
                 }
                 user_settings[snap.key] = snap.val();
             });
 
-            this.setState({user_settings});
-        });
+            this.setState({"user_settings":user_settings,
+                "owned_cars": owned_cars,
+                "selectedCar":selected_car},()=>{
+                const cars = ref(db, 'cars');
+                onValue(cars, snapshot => {
+                    let cars = [];
+                    console.log("onValue db.cars")
 
-        const owned_cars = ref(db, 'user_settings/' + this.state.user.uid + '/ownedCars');
-        onValue(owned_cars, snapshot => {
-            let owned_cars = [];
-            //console.log("owned")
-            snapshot.forEach(snap => {
-                owned_cars.push(snap.val()['id']);
+                    snapshot.forEach(snap => {
+                        cars.push(snap.val());
+                        cars[cars.length - 1].car_id = snap.key;
+                    });
+
+                    let filtered_cars = this.filter_to_only_owned_cars(cars);
+                    this.setState({"filtered_cars":filtered_cars,
+                        "cars": cars});
+                });
             });
-            this.setState({owned_cars});
         });
 
-        const cars = ref(db, 'cars');
-        onValue(cars, snapshot => {
-            let cars = [];
-            snapshot.forEach(snap => {
-                cars.push(snap.val());
-                cars[cars.length - 1].car_id = snap.key;
-            });
+       //const cars = ref(db, 'cars');
+       //onValue(cars, snapshot => {
+       //    let cars = [];
+       //    snapshot.forEach(snap => {
+       //        cars.push(snap.val());
+       //        cars[cars.length - 1].car_id = snap.key;
+       //    });
 
-            let filtered_cars = this.filter_to_only_owned_cars(cars);
-            this.setState({filtered_cars});
-        });
+       //    let filtered_cars = this.filter_to_only_owned_cars(cars);
+       //    this.setState({filtered_cars});
+       //});
 
     }
 
