@@ -13,7 +13,7 @@
     "moment": "2.29.1",
     "prop-types": "15.7.2",
     "react": "17.0.2",
-    "react-bootstrap": "2.0.2",
+    "react-bootstrap": "2.0.3",
     "react-bootstrap-table-next": "4.0.3",
     "react-bootstrap-table2-editor": "1.4.0",
     "react-bootstrap-table2-paginator": "2.1.2",
