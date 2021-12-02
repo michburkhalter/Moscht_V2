@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import Header from "../components/Header";
 import {auth, db} from "../services/firebase";
-import {onValue, ref} from "firebase/database";
+import {onValue, ref, update} from "firebase/database";
 import Dropdown from 'react-bootstrap/Dropdown';
 import {Col, Container, ListGroup, Row} from 'react-bootstrap';
 import 'zingchart/es6';
@@ -122,8 +122,6 @@ export default class Overview extends Component {
                 });
             });
         });
-
-
     }
 
     filter_to_only_owned_cars(cars) {
@@ -280,13 +278,9 @@ export default class Overview extends Component {
         this.setState({selectedCar: id});
         this.setState({writeError: null});
 
-        try {
-            await db.ref('user_settings/' + this.state.user.uid).update({
-                selectedCar: id,
-            });
-        } catch (error) {
-            this.setState({writeError: error.message});
-        }
+        await update(ref(db, 'user_settings/' + this.state.user.uid), {
+            selectedCar: id
+        });
 
         try {
             this.setState({datatable_rows: Object.values(this.get_fills_of_a_car(id))});
@@ -302,11 +296,6 @@ export default class Overview extends Component {
             this.feed_volume_gauge(tmp)
             this.calculate_stats(tmp)
         }
-        this.setState({
-            fuelamount: '',
-            odometer: '',
-            price: ''
-        });
     }
 
     get_fills_of_a_car(car_id) {

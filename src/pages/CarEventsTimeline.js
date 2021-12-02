@@ -37,7 +37,6 @@ export default class CarEventsTimeline extends Component {
         };
 
         this.car_selected = this.car_selected.bind(this);
-
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
 
@@ -45,70 +44,71 @@ export default class CarEventsTimeline extends Component {
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
 
+
         const user_settings = ref(db, 'user_settings/' + this.state.user.uid);
         onValue(user_settings, snapshot => {
-            console.log("onValue: user_settings");
             let user_settings = {};
+            let owned_cars = [];
+            let selected_car = {};
+            console.log("onValue db.user_settings");
 
             snapshot.forEach(snap => {
                 if (snap.key === 'selectedCar') {
-                    this.setState({selectedCar: snap.val()});
+                    selected_car = snap.val();
                     this.update_timeline_events(snap.val());
+                } else if (snap.key === 'ownedCars') {
+                    for (const [key, value] of Object.entries(snap.val())) {
+                        owned_cars.push(value['id']);
+                    }
+                    ;
                 }
                 user_settings[snap.key] = snap.val();
             });
 
-            this.setState({user_settings});
-        });
-
-        const owned_cars = ref(db, 'user_settings/' + this.state.user.uid + '/ownedCars');
-        onValue(owned_cars, snapshot => {
-            console.log("onValue: owned_cars");
-            let owned_cars = [];
-            //console.log("owned")
-            snapshot.forEach(snap => {
-                owned_cars.push(snap.val()['id']);
-            });
-            this.setState({owned_cars});
-        });
-
-        const cars = ref(db, 'cars');
-        onValue(cars, snapshot => {
-            console.log("onValue: cars");
-            let cars = [];
-            snapshot.forEach(snap => {
-                cars.push(snap.val());
-                cars[cars.length - 1].car_id = snap.key;
-            });
-
-            let filtered_cars = this.filter_to_only_owned_cars(cars);
-            this.setState({filtered_cars});
-
             this.setState({
-                events: []
-            });
-            let db_events = [];
-            this.setState({cars}, () => {
-                if (this.state.selectedCar !== undefined) {
-                    let fills = this.get_fills_of_a_car(this.state.selectedCar);
-                    let logs = this.get_logs_of_a_car(this.state.selectedCar);
-                    if (fills !== undefined) {
-                        Object.values(fills).forEach(fill =>
-                            db_events.push({fill: fill, odometer: fill.odometer})
-                        );
-                    }
-                    if (logs !== undefined) {
-                        Object.values(logs).forEach(log =>
-                            db_events.push({log: log, odometer: log.odometer})
-                        );
-                    }
+                "user_settings": user_settings,
+                "owned_cars": owned_cars,
+                "selectedCar": selected_car
+            }, () => {
+                const cars = ref(db, 'cars');
+                onValue(cars, snapshot => {
+                    console.log("onValue: cars");
+                    let cars = [];
+                    snapshot.forEach(snap => {
+                        cars.push(snap.val());
+                        cars[cars.length - 1].car_id = snap.key;
+                    });
 
-                    let tmp2 = Object.values(db_events).sort(
-                        this.compare_events_by_odometer_desc
-                    );
+                    let filtered_cars = this.filter_to_only_owned_cars(cars);
+                    this.setState({filtered_cars});
 
-                    this.setState({db_events: tmp2});
-                }
+                    this.setState({
+                        events: []
+                    });
+                    let db_events = [];
+                    this.setState({cars}, () => {
+                        if (this.state.selectedCar !== undefined) {
+                            let fills = this.get_fills_of_a_car(this.state.selectedCar);
+                            let logs = this.get_logs_of_a_car(this.state.selectedCar);
+                            if (fills !== undefined) {
+                                Object.values(fills).forEach(fill =>
+                                    db_events.push({fill: fill, odometer: fill.odometer})
+                                );
+                            }
+                            if (logs !== undefined) {
+                                Object.values(logs).forEach(log =>
+                                    db_events.push({log: log, odometer: log.odometer})
+                                );
+                            }
+
+                            let tmp2 = Object.values(db_events).sort(
+                                this.compare_events_by_odometer_desc
+                            );
+
+                            this.setState({db_events: tmp2});
+                        }
+                    });
+                });
             });
         });
     }

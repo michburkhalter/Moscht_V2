@@ -53,7 +53,7 @@ export default class AddFill extends Component {
             let user_settings = {};
             let owned_cars = [];
             let selected_car = {};
-            console.log("onValue db.user_settings");
+            //console.log("onValue db.user_settings");
 
             snapshot.forEach(snap => {
                 if (snap.key === 'selectedCar') {
