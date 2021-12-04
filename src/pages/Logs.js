@@ -81,11 +81,7 @@ export default class Logs extends Component {
                         cars.push(snap.val());
                         cars[cars.length - 1].car_id = snap.key;
                     });
-
-                    cars.sort(function (a, b) {
-                        return a.timestamp - b.timestamp
-                    })
-
+                    
                     let filtered_cars = this.filter_to_only_owned_cars(cars);
                     this.setState({
                         "filtered_cars": filtered_cars,
@@ -447,7 +443,7 @@ export default class Logs extends Component {
             }
         ];
         const defaultSorted = [{
-            dataField: 'timestamp',
+            dataField: 'odometer',
             order: 'desc'
         }];
         const selectRow = {
