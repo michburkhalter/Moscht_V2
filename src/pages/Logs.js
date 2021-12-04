@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import Header from "../components/Header";
 import {auth, db, storageRef} from "../services/firebase";
+import {onValue, push, ref, remove, update} from "firebase/database";
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form'
 import {Col, Container, Row} from 'react-bootstrap';
@@ -43,34 +44,34 @@ export default class Logs extends Component {
     }
 
     async componentDidMount() {
-        return new Promise((resolve, reject) => {
-            return db.ref('user_settings/' + this.state.user.uid).on("value", snapshot => {
-                let user_settings = {};
 
-                snapshot.forEach((snap) => {
-                    if (snap.key === "selectedCar") {
-                        this.setState({selectedCar: snap.val()})
-                    }
-                    user_settings[snap.key] = snap.val()
-                });
-                this.setState({user_settings});
-                resolve();
+        const user_settings = ref(db, 'user_settings/' + this.state.user.uid);
+        onValue(user_settings, snapshot => {
+            let user_settings = {};
+            let owned_cars = [];
+            let selected_car = {};
+            console.log("onValue db.user_settings");
+
+            snapshot.forEach(snap => {
+                if (snap.key === 'selectedCar') {
+                    selected_car = snap.val();
+                }else if(snap.key === 'ownedCars'){
+                    for (const [key, value] of Object.entries(snap.val())) {
+                        owned_cars.push(value['id']);
+                    };
+                }
+                user_settings[snap.key] = snap.val();
             });
-        })
-            .then(step2 => {
-                db.ref('user_settings/' + this.state.user.uid + '/ownedCars').on("value", snapshot => {
-                    let owned_cars = [];
-                    //console.log("owned")
-                    snapshot.forEach((snap) => {
-                        owned_cars.push(snap.val()['id']);
-                    });
-                    this.setState({owned_cars});
-                })
-            })
-            .then(step3 => {
-                db.ref("cars").on("value", snapshot => {
+
+            this.setState({"user_settings":user_settings,
+                "owned_cars": owned_cars,
+                "selectedCar":selected_car},()=>{
+                const cars = ref(db, 'cars');
+                onValue(cars, snapshot => {
                     let cars = [];
-                    snapshot.forEach((snap) => {
+                    console.log("onValue db.cars")
+
+                    snapshot.forEach(snap => {
                         cars.push(snap.val());
                         cars[cars.length - 1].car_id = snap.key;
                     });
@@ -80,9 +81,8 @@ export default class Logs extends Component {
                     })
 
                     let filtered_cars = this.filter_to_only_owned_cars(cars);
-                    this.setState({filtered_cars});
-
-                    this.setState({cars}, () => {
+                    this.setState({"filtered_cars":filtered_cars,
+                        "cars": cars}, () => {
                         if (this.state.selectedCar !== undefined) {
                             let tmp = this.get_logs_of_a_car(this.state.selectedCar);
                             if (tmp !== undefined) {
@@ -94,11 +94,8 @@ export default class Logs extends Component {
                         }
                     });
                 });
-            })
-            .catch(error => {
-                console.log('Argh! ' + error);
-                //reject();
             });
+        });
     }
 
     filter_to_only_owned_cars(cars) {
@@ -149,9 +146,9 @@ export default class Logs extends Component {
     async handleSubmit(event) {
         event.preventDefault();
         this.setState({writeError: null});
-        var timestamp = Date.now();
-        var file_name = '';
-        var file_url = '';
+        let timestamp = Date.now();
+        let file_name = '';
+        let file_url = '';
 
         if ((this.state.selectedCar === '') || (this.state.selectedCar === undefined)) {
             console.log("oh oh, please select a car in order to upload any data");
@@ -187,7 +184,8 @@ export default class Logs extends Component {
             }
 
             //save log to database
-            await db.ref('cars/' + this.state.selectedCar + "/logs").push({
+            //await db.ref('cars/' + this.state.selectedCar + "/logs").push({
+            await push(ref(db,'cars/' + this.state.selectedCar + "/logs"),{
                 what: this.state.log_what,
                 odometer: this.state.log_odometer,
                 price: this.state.log_price,
@@ -272,13 +270,9 @@ export default class Logs extends Component {
         this.setState({selectedCar: id});
         this.setState({writeError: null});
 
-        try {
-            await db.ref('user_settings/' + this.state.user.uid).update({
-                selectedCar: id,
-            });
-        } catch (error) {
-            this.setState({writeError: error.message});
-        }
+        await update(ref(db, 'user_settings/' + this.state.user.uid), {
+            selectedCar: id
+        });
 
         try {
             this.setState({datatable_rows: Object.values(this.get_logs_of_a_car(id))});
@@ -316,14 +310,13 @@ export default class Logs extends Component {
 
     async update_log(oldValue, newValue, row, column) {
         try {
-            await db.ref('cars/' + this.state.selectedCar + "/logs/" + row['id']).update({
+            await update(ref(db, 'cars/' + this.state.selectedCar + "/logs/" + row['id']), {
                 price: row['price'],
                 odometer: row['odometer'],
                 what: row['what'],
                 timestamp: parseInt(row['timestamp']),
                 user: row['user'],
-                who: row['who']
-            });
+                who: row['who']            });
         } catch (error) {
             this.setState({updateError: error.message});
         }
@@ -331,8 +324,9 @@ export default class Logs extends Component {
 
     async del_db_log_entry(id) {
         try {
-            await db.ref('cars/' + this.state.selectedCar + "/logs/" + id).remove();
+            await remove(ref(db, 'cars/' + this.state.selectedCar + "/logs/" + id));
         } catch (error) {
+            console.log(error);
             this.setState({updateError: error.message});
         }
     }
