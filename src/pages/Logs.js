@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import Header from "../components/Header";
 import {auth, db, storageRef} from "../services/firebase";
 import {onValue, push, ref, remove, update} from "firebase/database";
+import {ref as storageRefFnc, uploadBytes ,getDownloadURL } from "firebase/storage";
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form'
 import {Col, Container, Row} from 'react-bootstrap';
@@ -10,8 +11,8 @@ import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory, {Type} from 'react-bootstrap-table2-editor';
-import {confirmAlert} from 'react-confirm-alert'; // Import
-import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import {confirmAlert} from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import {odometer_formatter, price_formatter, time_formatter} from '../helpers/datatable_formatters';
 
 export default class Logs extends Component {
@@ -165,18 +166,23 @@ export default class Logs extends Component {
         //upload file to storage
         try {
             if (this.state.log_file !== undefined) {
-                console.log('Uploade file!')
-                let ref = storageRef.child('documents/' + this.state.selectedCar + '/' + file_name);
+                console.log('Upload file!')
+
+                const file_ref = storageRefFnc(storageRef, 'documents/' + this.state.selectedCar + '/' + file_name);
+                console.log("post");
 
                 // put file to storage
-                await ref.put(this.state.log_file).then(function (snapshot) {
-                    console.log('Uploaded the file!');
+                await uploadBytes(file_ref, this.state.log_file).then((snapshot) => {
+                    console.log('Uploaded a blob or file!');
                 });
 
                 //get download url to document
-                await ref.getDownloadURL().then(function (url) {
+                //await ref.getDownloadURL().then(function (url) {
+                await getDownloadURL(storageRefFnc(file_ref))
+                    .then((url) => {
                     file_url = url;
                 }).catch(function (error) {
+                    console.log("error on getDownloadURL")
                     console.log(error);
                 });
 
@@ -203,6 +209,7 @@ export default class Logs extends Component {
             });
         } catch (error) {
             console.log("oh oh");
+            console.log(error);
             this.setState({writeError: error.message});
         }
     }
