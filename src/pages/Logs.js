@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import Header from "../components/Header";
 import {auth, db, storageRef} from "../services/firebase";
 import {onValue, push, ref, remove, update} from "firebase/database";
-import {ref as storageRefFnc, uploadBytes ,getDownloadURL } from "firebase/storage";
+import {deleteObject, getDownloadURL, ref as storageRefFnc, uploadBytes} from "firebase/storage";
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form'
 import {Col, Container, Row} from 'react-bootstrap';
@@ -56,17 +56,20 @@ export default class Logs extends Component {
             snapshot.forEach(snap => {
                 if (snap.key === 'selectedCar') {
                     selected_car = snap.val();
-                }else if(snap.key === 'ownedCars'){
+                } else if (snap.key === 'ownedCars') {
                     for (const [key, value] of Object.entries(snap.val())) {
                         owned_cars.push(value['id']);
-                    };
+                    }
+                    ;
                 }
                 user_settings[snap.key] = snap.val();
             });
 
-            this.setState({"user_settings":user_settings,
+            this.setState({
+                "user_settings": user_settings,
                 "owned_cars": owned_cars,
-                "selectedCar":selected_car},()=>{
+                "selectedCar": selected_car
+            }, () => {
                 const cars = ref(db, 'cars');
                 onValue(cars, snapshot => {
                     let cars = [];
@@ -82,8 +85,10 @@ export default class Logs extends Component {
                     })
 
                     let filtered_cars = this.filter_to_only_owned_cars(cars);
-                    this.setState({"filtered_cars":filtered_cars,
-                        "cars": cars}, () => {
+                    this.setState({
+                        "filtered_cars": filtered_cars,
+                        "cars": cars
+                    }, () => {
                         if (this.state.selectedCar !== undefined) {
                             let tmp = this.get_logs_of_a_car(this.state.selectedCar);
                             if (tmp !== undefined) {
@@ -180,18 +185,18 @@ export default class Logs extends Component {
                 //await ref.getDownloadURL().then(function (url) {
                 await getDownloadURL(storageRefFnc(file_ref))
                     .then((url) => {
-                    file_url = url;
-                }).catch(function (error) {
-                    console.log("error on getDownloadURL")
-                    console.log(error);
-                });
+                        file_url = url;
+                    }).catch(function (error) {
+                        console.log("error on getDownloadURL")
+                        console.log(error);
+                    });
 
                 this.setState({log_file: undefined});
             }
 
             //save log to database
             //await db.ref('cars/' + this.state.selectedCar + "/logs").push({
-            await push(ref(db,'cars/' + this.state.selectedCar + "/logs"),{
+            await push(ref(db, 'cars/' + this.state.selectedCar + "/logs"), {
                 what: this.state.log_what,
                 odometer: this.state.log_odometer,
                 price: this.state.log_price,
@@ -323,7 +328,8 @@ export default class Logs extends Component {
                 what: row['what'],
                 timestamp: parseInt(row['timestamp']),
                 user: row['user'],
-                who: row['who']            });
+                who: row['who']
+            });
         } catch (error) {
             this.setState({updateError: error.message});
         }
@@ -341,9 +347,10 @@ export default class Logs extends Component {
     async del_file_log_entry(file) {
         if ((file !== undefined) && (file !== '-') && (file !== '')) {
             // Create a reference to the file to delete
-            var ref = storageRef.child('documents/' + this.state.selectedCar + '/' + file);
+            let file_ref = storageRefFnc(storageRef, 'documents/' + this.state.selectedCar + '/' + file);
+
             // Delete the file
-            ref.delete().then(function () {
+            deleteObject(file_ref).then(function () {
                 // File deleted successfully
                 console.log("delete file successfully")
             }).catch(function (error) {
