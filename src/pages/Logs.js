@@ -14,6 +14,8 @@ import cellEditFactory, {Type} from 'react-bootstrap-table2-editor';
 import {confirmAlert} from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import {odometer_formatter, price_formatter, time_formatter} from '../helpers/datatable_formatters';
+import {show_toast_failure} from "../helpers/toast";
+import {ToastContainer} from "react-toastify";
 
 export default class Logs extends Component {
     constructor(props) {
@@ -159,6 +161,11 @@ export default class Logs extends Component {
         if ((this.state.selectedCar === '') || (this.state.selectedCar === undefined)) {
             console.log("oh oh, please select a car in order to upload any data");
             this.setState({writeError: "please select a car first."});
+            return;
+        }
+
+        if((this.state.log_what === '') || (this.state.log_odometer === '')){
+            show_toast_failure("bitte mindestens \"Was\" und \"Kilometerstand\" ausfüllen!");
             return;
         }
 
@@ -455,6 +462,19 @@ export default class Logs extends Component {
             <div className="m-5">
                 <Header/>
                 <Container>
+                    <Row>
+                        <ToastContainer
+                            position="bottom-center"
+                            autoClose={5000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                        />
+                    </Row>
                     <Row>
                         <div className="px-3 m-5">
                             <Dropdown>
