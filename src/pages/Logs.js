@@ -241,7 +241,7 @@ export default class Logs extends Component {
 
         return (
             <span>
-          <a href={file_url}>{myArray[1]}</a>
+          <a href={file_url} target="_blank" rel="noreferrer noopener">{myArray[1]}</a>
         </span>
         );
     }

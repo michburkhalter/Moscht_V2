@@ -301,7 +301,7 @@ export default class CarEventsTimeline extends Component {
     ) {
         let the_file = '';
         if ((file != '') && (file != '-')) {
-            the_file = <div>Attachement: <a href={file_url}>{file}</a></div>;
+            the_file = <div>Attachement: <a href={file_url} target="_blank" rel="noreferrer noopener">{file}</a></div>;
         }
 
         let event = (
