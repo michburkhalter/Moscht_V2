@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Header from '../components/Header';
 import {auth, db} from '../services/firebase';
-import {onValue, ref, update,remove} from "firebase/database";
+import {onValue, ref, remove, update} from "firebase/database";
 import Dropdown from 'react-bootstrap/Dropdown';
 import {Container, Row} from 'react-bootstrap';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
@@ -56,17 +56,20 @@ export default class DetailsTable extends Component {
                 if (snap.key === 'selectedCar') {
                     selected_car = snap.val();
                     this.update_fills_of_selected_car(snap.val());
-                }else if(snap.key === 'ownedCars'){
+                } else if (snap.key === 'ownedCars') {
                     for (const [key, value] of Object.entries(snap.val())) {
                         owned_cars.push(value['id']);
-                    };
+                    }
+                    ;
                 }
                 user_settings[snap.key] = snap.val();
             });
 
-            this.setState({"user_settings":user_settings,
-                                "owned_cars": owned_cars,
-                                "selectedCar":selected_car},()=>{
+            this.setState({
+                "user_settings": user_settings,
+                "owned_cars": owned_cars,
+                "selectedCar": selected_car
+            }, () => {
                 const cars = ref(db, 'cars');
                 onValue(cars, snapshot => {
                     let cars = [];
@@ -78,8 +81,10 @@ export default class DetailsTable extends Component {
                     });
 
                     let filtered_cars = this.filter_to_only_owned_cars(cars);
-                    this.setState({"filtered_cars":filtered_cars,
-                        "cars": cars}, () => {
+                    this.setState({
+                        "filtered_cars": filtered_cars,
+                        "cars": cars
+                    }, () => {
                         if (this.state.selectedCar !== undefined) {
                             let tmp = this.get_fills_of_a_car(this.state.selectedCar);
                             if (tmp !== undefined) {
@@ -234,17 +239,17 @@ export default class DetailsTable extends Component {
                 row.fuel_efficiency = '-';
             }
 
-            await db
-                .ref('cars/' + this.state.selectedCar + '/fills/' + row['id'])
-                .update({
+            //await db.ref('cars/' + this.state.selectedCar + '/fills/' + row['id']).update({
+            await update(ref(db, 'cars/' + this.state.selectedCar + '/fills/' + row['id']), {
                     price: row['price'],
                     odometer: row['odometer'],
                     fuelamount: row['fuelamount'],
                     timestamp: parseInt(row['timestamp']),
                     user: row['user'],
                     fuel_efficiency: row['fuel_efficiency']
-                });
+            });
         } catch (error) {
+            console.log(error);
             this.setState({updateError: error.message});
         }
     }
