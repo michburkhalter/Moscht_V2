@@ -25,7 +25,7 @@
     "react-router-dom": "5.3.0",
     "react-toastify": "8.1.0",
     "react-vertical-timeline-component": "3.5.2",
-    "zingchart": "2.9.7",
+    "zingchart": "2.9.8",
     "zingchart-react": "3.1.1"
   },
   "scripts": {
