@@ -68,7 +68,7 @@ export default class Overview extends Component {
 
           snapshot.forEach(snap => {
             cars.push(snap.val());
-            cars[cars.length - 1].car_id = snap.key;
+            cars[cars.length - 1].id = snap.key;
             cars[cars.length - 1].key = snap.key;
             console.log(snap.key);
           });
@@ -87,7 +87,7 @@ export default class Overview extends Component {
     let filtered_cars = [];
 
     cars.forEach(car => {
-      if (this.state.owned_cars.includes(car['car_id']) === true) {
+      if (this.state.owned_cars.includes(car['id']) === true) {
         filtered_cars.push(car);
       }
     });
@@ -158,7 +158,7 @@ export default class Overview extends Component {
 
   async update_car(oldValue, newValue, row, column) {
     try {
-      await db.ref('cars/' + row['id']).update({
+      await update(ref(db, 'cars/' + row['id']), {
         name: row['name'],
         brand: row['brand'],
         model: row['model'],
@@ -274,7 +274,7 @@ export default class Overview extends Component {
           </Row>
           <Row>
             <BootstrapTable
-              keyField="car_id"
+              keyField="id"
               data={this.state.cars}
               columns={car_columns}
               striped
