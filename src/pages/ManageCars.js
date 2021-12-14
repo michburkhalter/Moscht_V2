@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Header from '../components/Header';
 import { auth } from '../services/firebase';
 import { db } from '../services/firebase';
-import {onValue, ref, remove, update} from "firebase/database";
+import {onValue, push, ref, remove, update} from "firebase/database";
 import Form from 'react-bootstrap/Form';
 import { Container, Row, Col } from 'react-bootstrap';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
@@ -124,8 +124,7 @@ export default class Overview extends Component {
     this.setState({ writeError: null });
 
     try {
-      db.ref('cars')
-        .push({
+      await push(ref(db, 'cars/'), {
           name: this.state.name,
           brand: this.state.brand,
           model: this.state.model,
@@ -133,11 +132,11 @@ export default class Overview extends Component {
           timestamp: Date.now()
         })
         .then(id => {
-          db.ref('user_settings/' + this.state.user.uid + '/ownedCars').push({
+          push(ref(db, 'user_settings/' + this.state.user.uid + '/ownedCars'), {
             id: id.key
           });
 
-          db.ref('user_settings/' + this.state.user.uid).update({
+          update(ref(db, 'user_settings/' + this.state.user.uid), {
             selectedCar: id.key
           });
           //resolve();
@@ -170,30 +169,28 @@ export default class Overview extends Component {
   }
 
   async del_db_car_entry(id) {
-    const mPostReference = await db.ref(
-      'user_settings/' + this.state.user.uid + '/ownedCars/'
-    );
-    const snapshot = await mPostReference.once('value');
-    const value = snapshot.val();
     let ids_to_remove = [];
 
-    Object.entries(value).forEach(entry => {
-      if (id === entry[1]['id']) {
-        ids_to_remove.push(entry[0]);
-      }
+    onValue(ref(db,'user_settings/' + this.state.user.uid + '/ownedCars/'), (snapshot) => {
+      Object.entries(snapshot.val()).forEach(entry => {
+        if (id === entry[1]['id']) {
+          ids_to_remove.push(entry[0]);
+        }
+      });
+    }, {
+      onlyOnce: true
     });
+
+
 
     try {
       //first remove car from db.cars
-      db.ref('cars/' + id)
-        .remove()
+      await remove(ref(db, 'cars/' + id))
         //then remove car id from owned cars
         .then(value => {
           ids_to_remove.forEach(idtrm => {
             console.log('idtrm : ' + id);
-            db.ref(
-              'user_settings/' + this.state.user.uid + '/ownedCars/' + idtrm
-            ).remove();
+            remove(ref(db, 'user_settings/' + this.state.user.uid + '/ownedCars/' + idtrm));
           });
         });
     } catch (error) {
