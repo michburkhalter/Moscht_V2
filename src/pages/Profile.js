@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Header from "../components/Header";
 import { auth } from "../services/firebase";
 import { db } from "../services/firebase";
+import {onValue, push, ref, remove, update} from "firebase/database";
 import Form from 'react-bootstrap/Form'
 import { Container, Row, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button'
@@ -42,7 +43,9 @@ export default class Profile extends Component {
     this.setState({ writeError: null });
 
     try {
-      await db.ref('user_settings/' + this.state.user.uid + "/ownedCars").push({
+      //-MqupJOK-ko3Pq5qif-H
+      await push(ref(db, 'user_settings/' + this.state.user.uid + "/ownedCars"), {
+      //await db.ref('user_settings/' + this.state.user.uid + "/ownedCars").push({
         id: this.state.car_id,
       });
       this.setState({ car_id: '' });
@@ -55,7 +58,8 @@ export default class Profile extends Component {
     this.setState({ readError: null, loadingCars: true });
 
     try {
-      return db.ref('user_settings/' + this.state.user.uid).on("value", snapshot => {
+      const user_settings = ref(db, 'user_settings/' + this.state.user.uid);
+      onValue(user_settings, snapshot => {
         let properties = [];
         let owned_cars = [];
         let user_settings = {};
@@ -105,7 +109,7 @@ export default class Profile extends Component {
     dict[row['property']] = row['value']
     
     try {
-      await db.ref('user_settings/' + this.state.user.uid).update(dict);
+      update(ref(db, 'user_settings/' + this.state.user.uid), dict);
     } catch (error) {
       this.setState({ updateError: error.message });
     }
@@ -113,7 +117,7 @@ export default class Profile extends Component {
 
   async del_db_owned_car_entry(id){
     try {
-      await db.ref('user_settings/' + this.state.user.uid + "/ownedCars/" + id).remove();
+      await remove(ref(db, 'user_settings/' + this.state.user.uid + "/ownedCars/" + id));
     } catch (error) {
       this.setState({ updateError: error.message });
     }
