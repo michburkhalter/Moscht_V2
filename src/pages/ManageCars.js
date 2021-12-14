@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import Header from '../components/Header';
 import { auth } from '../services/firebase';
 import { db } from '../services/firebase';
+import {onValue, ref, remove, update} from "firebase/database";
 import Form from 'react-bootstrap/Form';
 import { Container, Row, Col } from 'react-bootstrap';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
-//import paginationFactory from 'react-bootstrap-table2-paginator';
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import Button from 'react-bootstrap/Button';
 import { confirmAlert } from 'react-confirm-alert'; // Import
@@ -18,6 +18,7 @@ export default class Overview extends Component {
     this.state = {
       user: auth.currentUser,
       cars: [],
+      filtered_cars: [],
       name: '',
       brand: '',
       model: '',
@@ -35,22 +36,63 @@ export default class Overview extends Component {
 
   async componentDidMount() {
     this.setState({ readError: null, loadingCars: true });
-    try {
-      db.ref('cars').on('value', snapshot => {
-        let cars = [];
-        snapshot.forEach(snap => {
-          cars.push(snap.val());
-          cars[cars.length - 1].id = snap.key;
-        });
-        cars.sort(function(a, b) {
-          return a.timestamp - b.timestamp;
-        });
-        this.setState({ cars });
-        this.setState({ loadingCars: false });
+
+    const user_settings = ref(db, 'user_settings/' + this.state.user.uid);
+    onValue(user_settings, snapshot => {
+      let user_settings = {};
+      let owned_cars = [];
+      let selected_car = {};
+      console.log("onValue db.user_settings");
+
+      snapshot.forEach(snap => {
+        if (snap.key === 'selectedCar') {
+          selected_car = snap.val();
+        } else if (snap.key === 'ownedCars') {
+          for (const [key, value] of Object.entries(snap.val())) {
+            owned_cars.push(value['id']);
+          }
+          ;
+        }
+        user_settings[snap.key] = snap.val();
       });
-    } catch (error) {
-      this.setState({ readError: error.message, loadingCars: false });
-    }
+
+      this.setState({
+        "user_settings": user_settings,
+        "owned_cars": owned_cars,
+        "selectedCar": selected_car
+      }, () => {
+        const cars = ref(db, 'cars');
+        onValue(cars, snapshot => {
+          let cars = [];
+          console.log("onValue db.cars")
+
+          snapshot.forEach(snap => {
+            cars.push(snap.val());
+            cars[cars.length - 1].car_id = snap.key;
+            cars[cars.length - 1].key = snap.key;
+            console.log(snap.key);
+          });
+
+          let filtered_cars = this.filter_to_only_owned_cars(cars);
+          this.setState({
+            "filtered_cars": filtered_cars,
+            "cars": cars
+          });
+        });
+      });
+    });
+  }
+
+  filter_to_only_owned_cars(cars) {
+    let filtered_cars = [];
+
+    cars.forEach(car => {
+      if (this.state.owned_cars.includes(car['car_id']) === true) {
+        filtered_cars.push(car);
+      }
+    });
+
+    return filtered_cars;
   }
 
   handleChange_Name(event) {
@@ -232,7 +274,7 @@ export default class Overview extends Component {
           </Row>
           <Row>
             <BootstrapTable
-              keyField="id"
+              keyField="car_id"
               data={this.state.cars}
               columns={car_columns}
               striped
