@@ -7,7 +7,7 @@ export default class Chat extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: auth().currentUser,
+      user: auth.currentUser,
       chats: [],
       content: '',
       readError: null,
