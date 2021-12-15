@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import Header from "../components/Header";
 import {auth, db} from "../services/firebase";
+import {onValue, ref, update} from "firebase/database";
 import Dropdown from 'react-bootstrap/Dropdown';
 import {Col, Container, ListGroup, Row} from 'react-bootstrap';
 import 'zingchart/es6';
@@ -10,12 +11,13 @@ import {ToastContainer} from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 import ZingChart from "zingchart-react";
+import {odometer_formatter} from "../helpers/datatable_formatters";
 
 export default class Overview extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: auth().currentUser,
+            user: auth.currentUser,
             datatable_rows: [],
             user_settings: {},
             cars: [],
@@ -66,61 +68,61 @@ export default class Overview extends Component {
     }
 
     async componentDidMount() {
-        return new Promise((resolve, reject) => {
-            return db.ref('user_settings/' + this.state.user.uid).on("value", snapshot => {
+        const user_settings = ref(db, 'user_settings/' + this.state.user.uid);
+        onValue(user_settings, snapshot => {
+            let user_settings = {};
+            let owned_cars = [];
+            let selected_car = {};
+            console.log("onValue db.user_settings");
 
-                let user_settings = {};
-
-                snapshot.forEach((snap) => {
-                    if (snap.key === "selectedCar") {
-                        this.setState({selectedCar: snap.val()})
+            snapshot.forEach(snap => {
+                if (snap.key === 'selectedCar') {
+                    selected_car = snap.val();
+                } else if (snap.key === 'ownedCars') {
+                    for (const [key, value] of Object.entries(snap.val())) {
+                        owned_cars.push(value['id']);
                     }
-                    user_settings[snap.key] = snap.val()
-                });
-
-                this.setState({user_settings});
-                resolve();
+                    ;
+                }
+                user_settings[snap.key] = snap.val();
             });
-        })
-            .then(step2 => {
-                db.ref('user_settings/' + this.state.user.uid + '/ownedCars').on("value", snapshot => {
-                    let owned_cars = [];
-                    //console.log("owned")
-                    snapshot.forEach((snap) => {
-                        owned_cars.push(snap.val()['id']);
-                    });
-                    this.setState({owned_cars});
-                })
-            })
-            .then(step3 => {
-                db.ref("cars").on("value", snapshot => {
+
+            this.setState({
+                "user_settings": user_settings,
+                "owned_cars": owned_cars,
+                "selectedCar": selected_car
+            }, () => {
+                const cars = ref(db, 'cars');
+                onValue(cars, snapshot => {
                     let cars = [];
-                    snapshot.forEach((snap) => {
+                    console.log("onValue db.cars")
+
+                    snapshot.forEach(snap => {
                         cars.push(snap.val());
                         cars[cars.length - 1].car_id = snap.key;
                     });
 
                     let filtered_cars = this.filter_to_only_owned_cars(cars);
-                    this.setState({filtered_cars});
-
-                    cars.sort(function (a, b) {
-                        return a.timestamp - b.timestamp
-                    })
-                    this.setState({cars}, () => {
-                        if (this.state.selectedCar !== undefined) {
-                            let tmp = this.get_fills_of_a_car(this.state.selectedCar);
-                            if (tmp !== undefined) {
-                                let tmp2 = Object.values(tmp);
-                                this.setState({datatable_rows: tmp2})
-                                this.feed_consumption_gauge(tmp)
-                                this.feed_volume_gauge(tmp)
-                                this.calculate_stats(tmp)
+                    this.setState({"filtered_cars": filtered_cars}, () => {
+                        cars.sort(function (a, b) {
+                            return a.timestamp - b.timestamp
+                        })
+                        this.setState({cars}, () => {
+                            if (this.state.selectedCar !== undefined) {
+                                let tmp = this.get_fills_of_a_car(this.state.selectedCar);
+                                if (tmp !== undefined) {
+                                    let tmp2 = Object.values(tmp);
+                                    this.setState({datatable_rows: tmp2})
+                                    this.feed_consumption_gauge(tmp)
+                                    this.feed_volume_gauge(tmp)
+                                    this.calculate_stats(tmp)
+                                }
                             }
-                        }
+                        });
                     });
                 });
             });
-
+        });
     }
 
     filter_to_only_owned_cars(cars) {
@@ -277,13 +279,9 @@ export default class Overview extends Component {
         this.setState({selectedCar: id});
         this.setState({writeError: null});
 
-        try {
-            await db.ref('user_settings/' + this.state.user.uid).update({
-                selectedCar: id,
-            });
-        } catch (error) {
-            this.setState({writeError: error.message});
-        }
+        await update(ref(db, 'user_settings/' + this.state.user.uid), {
+            selectedCar: id
+        });
 
         try {
             this.setState({datatable_rows: Object.values(this.get_fills_of_a_car(id))});
@@ -299,11 +297,6 @@ export default class Overview extends Component {
             this.feed_volume_gauge(tmp)
             this.calculate_stats(tmp)
         }
-        this.setState({
-            fuelamount: '',
-            odometer: '',
-            price: ''
-        });
     }
 
     get_fills_of_a_car(car_id) {
@@ -376,7 +369,7 @@ export default class Overview extends Component {
                                 <ListGroup.Item>&sum; Tankungen: <strong>{this.state.stats.nbr_of_fills}</strong></ListGroup.Item>
                                 <ListGroup.Item>&sum; Moscht: <strong>{this.state.stats.total_volume_used} Liter</strong></ListGroup.Item>
                                 <ListGroup.Item>&sum; Benzinkosten: <strong>CHF {this.state.stats.total_amount_spent}</strong></ListGroup.Item>
-                                <ListGroup.Item>&sum; Strecke: <strong>{this.state.stats.total_distance} km</strong></ListGroup.Item>
+                                <ListGroup.Item>&sum; Strecke: <strong>{odometer_formatter(this.state.stats.total_distance)}</strong></ListGroup.Item>
                                 <ListGroup.Item>&empty; Tankmenge: <strong>{this.state.stats.average_fill} l</strong></ListGroup.Item>
                                 <ListGroup.Item>&empty; Verbrauch: <strong>{this.state.stats.average_consumption} l/100km</strong></ListGroup.Item>
                             </ListGroup>
