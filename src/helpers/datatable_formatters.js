@@ -30,9 +30,7 @@ export function odometer_formatter(cell, row, rowIndex, formatExtraData) {
   if (cell === undefined) {
     return '-';
   } else {
-    var parts = cell.split('.');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, "'");
-    return parts.join('.') + ' km';
+    return cell+' km';
   }
 }
 

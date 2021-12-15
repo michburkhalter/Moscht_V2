@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {auth} from '../services/firebase';
+import { signOut } from "firebase/auth";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Header() {
@@ -25,7 +26,7 @@ function Header() {
                     className="collapse navbar-collapse justify-content-end"
                     id="navbarNavAltMarkup"
                 >
-                    {auth().currentUser ? (
+                    {auth.currentUser ? (
                         <div className="navbar-nav">
                             <Link className="nav-item nav-link mx-2" to="/overview">
                                 Overview
@@ -50,7 +51,7 @@ function Header() {
                             </Link>
                             <button
                                 className="btn btn-primary mx-3"
-                                onClick={() => auth().signOut()}
+                                onClick={() => signOut(auth)}
                             >
                                 Logout
                             </button>
