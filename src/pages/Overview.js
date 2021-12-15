@@ -11,6 +11,7 @@ import {ToastContainer} from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 import ZingChart from "zingchart-react";
+import {odometer_formatter} from "../helpers/datatable_formatters";
 
 export default class Overview extends Component {
     constructor(props) {
@@ -368,7 +369,7 @@ export default class Overview extends Component {
                                 <ListGroup.Item>&sum; Tankungen: <strong>{this.state.stats.nbr_of_fills}</strong></ListGroup.Item>
                                 <ListGroup.Item>&sum; Moscht: <strong>{this.state.stats.total_volume_used} Liter</strong></ListGroup.Item>
                                 <ListGroup.Item>&sum; Benzinkosten: <strong>CHF {this.state.stats.total_amount_spent}</strong></ListGroup.Item>
-                                <ListGroup.Item>&sum; Strecke: <strong>{this.state.stats.total_distance} km</strong></ListGroup.Item>
+                                <ListGroup.Item>&sum; Strecke: <strong>{odometer_formatter(this.state.stats.total_distance)}</strong></ListGroup.Item>
                                 <ListGroup.Item>&empty; Tankmenge: <strong>{this.state.stats.average_fill} l</strong></ListGroup.Item>
                                 <ListGroup.Item>&empty; Verbrauch: <strong>{this.state.stats.average_consumption} l/100km</strong></ListGroup.Item>
                             </ListGroup>
