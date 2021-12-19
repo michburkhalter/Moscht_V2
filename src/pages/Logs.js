@@ -307,12 +307,14 @@ export default class Logs extends Component {
 
     get_logs_of_a_car(car_id) {
         let logs = [];
-        if ((car_id !== undefined) && (car_id !== "")) {
-            logs = this.get_car_by_id(this.state.selectedCar).logs;
-        }
-
-        //add property id to each log
         try {
+            if ((car_id !== undefined) && (car_id !== "")) {
+                console.log("car_id"+car_id);
+                console.log(car_id)
+                logs = this.get_car_by_id(this.state.selectedCar).logs;
+            }
+
+            //add property id to each log
             Object.keys(logs).forEach(function (log) {
                 logs[log]['id'] = log;
             });

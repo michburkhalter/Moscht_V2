@@ -224,12 +224,12 @@ export default class CarEventsTimeline extends Component {
 
     get_fills_of_a_car(car_id) {
         let fills = [];
-        if (car_id !== undefined && car_id !== '') {
-            fills = this.get_car_by_id(this.state.selectedCar).fills;
-        }
-
-        //add property id to each fill
         try {
+            if (car_id !== undefined && car_id !== '') {
+                fills = this.get_car_by_id(this.state.selectedCar).fills;
+            }
+
+            //add property id to each fill
             Object.keys(fills).forEach(function (fill) {
                 fills[fill]['id'] = fill;
             });
@@ -242,12 +242,12 @@ export default class CarEventsTimeline extends Component {
 
     get_logs_of_a_car(car_id) {
         let logs = [];
-        if (car_id !== undefined && car_id !== '') {
-            logs = this.get_car_by_id(this.state.selectedCar).logs;
-        }
-
-        //add property id to each log
         try {
+            if (car_id !== undefined && car_id !== '') {
+                logs = this.get_car_by_id(this.state.selectedCar).logs;
+            }
+
+            //add property id to each log
             Object.keys(logs).forEach(function (log) {
                 logs[log]['id'] = log;
             });

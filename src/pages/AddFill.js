@@ -164,8 +164,13 @@ export default class AddFill extends Component {
         event.preventDefault();
         this.setState({writeError: null});
 
-        let ordered_fills_of_selected_car = Object.values(this.get_car_by_id(this.state.selectedCar).fills).sort(this.compare_fills_by_odometer);
-        let average_consumption_of_leg = 0;
+        try{
+            let ordered_fills_of_selected_car = Object.values(this.get_car_by_id(this.state.selectedCar).fills).sort(this.compare_fills_by_odometer);
+            let average_consumption_of_leg = 0;
+        }catch (e) {
+            show_toast_failure('No Car selected');
+            return
+        }
 
         if (
             this.state.fuelamount === '' ||
