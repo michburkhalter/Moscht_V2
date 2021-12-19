@@ -239,7 +239,6 @@ export default class Profile extends Component {
             />
           </Row>
           <Row>
-            {/* Fuel filling form */}
             <Form onSubmit={this.handleSubmit}>
               <div className="px-3">
                 <Row>
