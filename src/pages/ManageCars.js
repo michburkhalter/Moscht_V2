@@ -270,7 +270,7 @@ export default class Overview extends Component {
                     <Row>
                         <BootstrapTable
                             keyField="id"
-                            data={this.state.cars}
+                            data={this.state.filtered_cars}
                             columns={car_columns}
                             striped
                             hover
