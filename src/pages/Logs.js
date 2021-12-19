@@ -309,8 +309,6 @@ export default class Logs extends Component {
         let logs = [];
         try {
             if ((car_id !== undefined) && (car_id !== "")) {
-                console.log("car_id"+car_id);
-                console.log(car_id)
                 logs = this.get_car_by_id(this.state.selectedCar).logs;
             }
 

@@ -69,7 +69,6 @@ export default class Overview extends Component {
                         cars.push(snap.val());
                         cars[cars.length - 1].id = snap.key;
                         cars[cars.length - 1].key = snap.key;
-                        console.log(snap.key);
                     });
 
                     let filtered_cars = this.filter_to_only_owned_cars(cars);

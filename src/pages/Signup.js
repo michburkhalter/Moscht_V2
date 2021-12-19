@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {signInWithGitHub, signInWithGoogle, signup} from "../helpers/auth";
-import {push, ref, set} from "firebase/database";
+import {ref, set} from "firebase/database";
 import {db} from "../services/firebase";
 
 export default class SignUp extends Component {
@@ -12,7 +12,7 @@ export default class SignUp extends Component {
             error: null,
             email: '',
             password: '',
-            name:'',
+            name: '',
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);

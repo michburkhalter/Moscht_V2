@@ -36,9 +36,9 @@ export default class Overview extends Component {
             writeError: null,
             gauge_consumption: {
                 type: 'gauge',
-                backgroundColor:'none',
-                plotarea:{
-                    backgroundColor:'transparent'
+                backgroundColor: 'none',
+                plotarea: {
+                    backgroundColor: 'transparent'
                 },
                 'scale-r': {
                     aperture: 200,     //Specify your scale range.
@@ -52,9 +52,9 @@ export default class Overview extends Component {
             },
             gauge_volume: {
                 type: 'gauge',
-                backgroundColor:'none',
-                plotarea:{
-                    backgroundColor:'transparent'
+                backgroundColor: 'none',
+                plotarea: {
+                    backgroundColor: 'transparent'
                 },
                 'scale-r': {
                     aperture: 200,     //Specify your scale range.

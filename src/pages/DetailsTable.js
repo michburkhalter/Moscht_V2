@@ -241,12 +241,12 @@ export default class DetailsTable extends Component {
 
             //await db.ref('cars/' + this.state.selectedCar + '/fills/' + row['id']).update({
             await update(ref(db, 'cars/' + this.state.selectedCar + '/fills/' + row['id']), {
-                    price: row['price'],
-                    odometer: row['odometer'],
-                    fuelamount: row['fuelamount'],
-                    timestamp: parseInt(row['timestamp']),
-                    user: row['user'],
-                    fuel_efficiency: row['fuel_efficiency']
+                price: row['price'],
+                odometer: row['odometer'],
+                fuelamount: row['fuelamount'],
+                timestamp: parseInt(row['timestamp']),
+                user: row['user'],
+                fuel_efficiency: row['fuel_efficiency']
             });
         } catch (error) {
             console.log(error);
