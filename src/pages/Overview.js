@@ -36,6 +36,10 @@ export default class Overview extends Component {
             writeError: null,
             gauge_consumption: {
                 type: 'gauge',
+                backgroundColor:'none',
+                plotarea:{
+                    backgroundColor:'transparent'
+                },
                 'scale-r': {
                     aperture: 200,     //Specify your scale range.
                     values: "0:10:1" //Provide min/max/step scale values.
@@ -48,6 +52,10 @@ export default class Overview extends Component {
             },
             gauge_volume: {
                 type: 'gauge',
+                backgroundColor:'none',
+                plotarea:{
+                    backgroundColor:'transparent'
+                },
                 'scale-r': {
                     aperture: 200,     //Specify your scale range.
                     values: "0:70:5" //Provide min/max/step scale values.
