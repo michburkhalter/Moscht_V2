@@ -43,9 +43,7 @@ export default class Profile extends Component {
     this.setState({ writeError: null });
 
     try {
-      //-MqupJOK-ko3Pq5qif-H
       await push(ref(db, 'user_settings/' + this.state.user.uid + "/ownedCars"), {
-      //await db.ref('user_settings/' + this.state.user.uid + "/ownedCars").push({
         id: this.state.car_id,
       });
       this.setState({ car_id: '' });
