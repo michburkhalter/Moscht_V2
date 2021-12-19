@@ -16,8 +16,8 @@ export default class HomePage extends Component {
               <h1 className="display-4">Welcome to Moscht V2</h1>
               <p className="lead">Get insights into your fuel consumption</p>
               <div className="mt-4">
-                <Link className="btn btn-primary px-5 mr-3" to="/signup">Create New Account</Link>
-                <Link className="btn px-5" to="/login">Login to Your Account</Link>
+                <Link className="btn btn-secondary px-5 mx-3" to="/signup">Create New Account</Link>
+                <Link className="btn btn-primary px-5 mx-3" to="/login">Login to Your Account</Link>
               </div>
             </div>
           </div>
