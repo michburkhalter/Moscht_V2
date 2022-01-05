@@ -11,7 +11,7 @@
     "events": "3.3.0",
     "firebase": "9.6.1",
     "moment": "2.29.1",
-    "prop-types": "15.7.2",
+    "prop-types": "15.8.1",
     "react": "17.0.2",
     "react-bootstrap": "2.0.3",
     "react-bootstrap-table-next": "4.0.3",
