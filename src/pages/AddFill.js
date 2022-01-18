@@ -156,13 +156,20 @@ export default class AddFill extends Component {
         event.preventDefault();
         this.setState({writeError: null});
 
-        try {
-            let ordered_fills_of_selected_car = Object.values(this.get_car_by_id(this.state.selectedCar).fills).sort(this.compare_fills_by_odometer);
-            let average_consumption_of_leg = 0;
-        } catch (e) {
-            show_toast_failure('No Car selected');
-            return
+        let average_consumption_of_leg = 0;
+        let ordered_fills_of_selected_car = NaN;
+
+        if ((this.state.selectedCar === '') || (this.state.selectedCar === undefined)) {
+            console.log("oh oh, please select a car in order to upload any data");
+            this.setState({writeError: "please select a car first."});
+            return;
         }
+
+        try {
+            ordered_fills_of_selected_car = Object.values(this.get_car_by_id(this.state.selectedCar).fills).sort(this.compare_fills_by_odometer);
+        } catch (e) {
+            console.log('No fills available to sort');
+            }
 
         if (
             this.state.fuelamount === '' ||

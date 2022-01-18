@@ -1,0 +1,857 @@
+{
+  "cars" : {
+    "-M7Yyp6j-0gAS_zDYtQG" : {
+      "brand" : "Peugeot",
+      "fills" : {
+        "-M8aE-4vP1CTSQuJkBsm" : {
+          "fuel_efficiency" : "-",
+          "fuelamount" : "33",
+          "odometer" : "163700",
+          "price" : "47",
+          "receivingcar" : "-M7Yyp6j-0gAS_zDYtQG",
+          "timestamp" : 1590853108373,
+          "user" : "michburkhalter"
+        },
+        "-M8aET8KjFS7tkCy99sF" : {
+          "fuel_efficiency" : "-",
+          "fuelamount" : "33",
+          "odometer" : "164330",
+          "price" : "51",
+          "receivingcar" : "-M7Yyp6j-0gAS_zDYtQG",
+          "timestamp" : 1590853231469,
+          "user" : "michburkhalter"
+        },
+        "-M8aEdEm6q1oaeqfOfq3" : {
+          "fuel_efficiency" : "-",
+          "fuelamount" : "33.46",
+          "odometer" : "165063",
+          "price" : "50",
+          "receivingcar" : "-M7Yyp6j-0gAS_zDYtQG",
+          "timestamp" : 1590853276939,
+          "user" : "michburkhalter"
+        },
+        "-M8aEtqRX7Sp3Ay1ta-L" : {
+          "fuel_efficiency" : "-",
+          "fuelamount" : "33",
+          "odometer" : "165800",
+          "price" : "50",
+          "receivingcar" : "-M7Yyp6j-0gAS_zDYtQG",
+          "timestamp" : 1590853344949,
+          "user" : "michburkhalter"
+        },
+        "-M8aF-ZceMlOrHTVqxZ8" : {
+          "fuel_efficiency" : "-",
+          "fuelamount" : "28",
+          "odometer" : "166325",
+          "price" : "42",
+          "receivingcar" : "-M7Yyp6j-0gAS_zDYtQG",
+          "timestamp" : 1590853372481,
+          "user" : "michburkhalte"
+        },
+        "-M8aF6Zye9y2f3VDsPgU" : {
+          "fuel_efficiency" : "-",
+          "fuelamount" : "30",
+          "odometer" : "167027",
+          "price" : "45",
+          "receivingcar" : "-M7Yyp6j-0gAS_zDYtQG",
+          "timestamp" : 1590853401175,
+          "user" : "michburkhalte"
+        },
+        "-M8aFD0ZALm0ShMSj9Ib" : {
+          "fuel_efficiency" : "-",
+          "fuelamount" : "29",
+          "odometer" : "167544",
+          "price" : "44.4",
+          "receivingcar" : "-M7Yyp6j-0gAS_zDYtQG",
+          "timestamp" : 1590853427581,
+          "user" : "michburkhalter"
+        },
+        "-M8aFSViqLSstePMP6HR" : {
+          "fuel_efficiency" : "-",
+          "fuelamount" : "37",
+          "odometer" : "168243",
+          "price" : "54",
+          "receivingcar" : "-M7Yyp6j-0gAS_zDYtQG",
+          "timestamp" : 1590853491015,
+          "user" : "michburkhalter"
+        },
+        "-M8aFWNietoMNvqP9CoG" : {
+          "fuel_efficiency" : "-",
+          "fuelamount" : "24",
+          "odometer" : "168864",
+          "price" : "34.2",
+          "receivingcar" : "-M7Yyp6j-0gAS_zDYtQG",
+          "timestamp" : 1590853506887,
+          "user" : "michburkhalter"
+        },
+        "-M8aFblDbM_eQLvdymUU" : {
+          "fuel_efficiency" : "-",
+          "fuelamount" : "29.7",
+          "odometer" : "169517",
+          "price" : "43",
+          "receivingcar" : "-M7Yyp6j-0gAS_zDYtQG",
+          "timestamp" : 1590853533031,
+          "user" : "michburkhalter"
+        },
+        "-M8aFlRfvq3pKe4YzfUY" : {
+          "fuel_efficiency" : "-",
+          "fuelamount" : "34.27",
+          "odometer" : "170144",
+          "price" : "51.4",
+          "receivingcar" : "-M7Yyp6j-0gAS_zDYtQG",
+          "timestamp" : 1590853572676,
+          "user" : "michburkhalter"
+        },
+        "-M8aFqEWiqp3VjUjbeYx" : {
+          "fuel_efficiency" : "-",
+          "fuelamount" : "32.37",
+          "odometer" : "170816",
+          "price" : "45",
+          "receivingcar" : "-M7Yyp6j-0gAS_zDYtQG",
+          "timestamp" : 1590853592314,
+          "user" : "michburkhalter"
+        },
+        "-M8aFuPYBCSobceO6XhY" : {
+          "fuel_efficiency" : "-",
+          "fuelamount" : "32",
+          "odometer" : "171493",
+          "price" : "42",
+          "receivingcar" : "-M7Yyp6j-0gAS_zDYtQG",
+          "timestamp" : 1590853609404,
+          "user" : "michburkhalter"
+        },
+        "-M9Rhu5OMZpWiYnF_FX5" : {
+          "fuel_efficiency" : "-",
+          "fuelamount" : "23",
+          "odometer" : "171943",
+          "price" : "30",
+          "receivingcar" : "-M7Yyp6j-0gAS_zDYtQG",
+          "timestamp" : 1591767179412,
+          "user" : "michburkhalter"
+        },
+        "-MAj30NTHM79_xp_iimP" : {
+          "fuelamount" : "35",
+          "odometer" : "172693",
+          "price" : "47",
+          "receivingcar" : "-M7Yyp6j-0gAS_zDYtQG",
+          "timestamp" : 1593148709043,
+          "user" : "michburkhalter"
+        },
+        "-MCCk1kVLNQqTJMMrrol" : {
+          "fuel_efficiency" : "-",
+          "fuelamount" : "34.6",
+          "odometer" : "173448",
+          "price" : "46",
+          "timestamp" : 1594737306020,
+          "user" : "michburkhalte"
+        },
+        "-MEIJfCVgEtaIdK-pB0o" : {
+          "fuel_efficiency" : "-",
+          "fuelamount" : "29.9",
+          "odometer" : "174093",
+          "price" : "38",
+          "timestamp" : 1596978278713,
+          "user" : "m"
+        },
+        "-MFnVcS0JT_fMBoxcvKo" : {
+          "fuelamount" : "31.33",
+          "odometer" : "174760",
+          "price" : "39.16",
+          "timestamp" : 1598592025855,
+          "user" : "michburkhalter"
+        },
+        "-MH9zADrDWKkOHq6tslw" : {
+          "fuelamount" : "30.94",
+          "odometer" : "175443",
+          "price" : "39.91",
+          "timestamp" : 1600059650883,
+          "user" : "michburkhalter"
+        },
+        "-MIyT1PDn58YC2V844NN" : {
+          "fuel_efficiency" : "x",
+          "fuelamount" : "33",
+          "odometer" : "176195",
+          "price" : "44",
+          "timestamp" : 1601997120265,
+          "user" : "michbu"
+        },
+        "-MKG0TT6yzE5fxft2X6h" : {
+          "fuelamount" : "33",
+          "odometer" : "176817",
+          "price" : "44",
+          "timestamp" : 1603382143439,
+          "user" : "michburkhalte"
+        },
+        "-MLfX11PHgQSiDCpay6H" : {
+          "fuel_efficiency" : 4.2,
+          "fuelamount" : "31",
+          "odometer" : "177548",
+          "price" : "40",
+          "timestamp" : 1604900625772,
+          "user" : "Ich"
+        },
+        "-MN-FUTEAphfgcr2oT6C" : {
+          "fuel_efficiency" : 5.4,
+          "fuelamount" : "30.5",
+          "odometer" : "178112",
+          "price" : "42",
+          "timestamp" : 1606322089990,
+          "user" : "Ich"
+        },
+        "-MOHlv32miPPt2Z5jJa3" : {
+          "fuel_efficiency" : 5.1,
+          "fuelamount" : "36.3",
+          "odometer" : "178817",
+          "price" : "47.2",
+          "timestamp" : 1607706587604,
+          "user" : "Ich"
+        },
+        "-MQXfrKRr70LIivrGa-p" : {
+          "fuel_efficiency" : 4.5,
+          "fuelamount" : "33.1",
+          "odometer" : "179553",
+          "price" : "47.33",
+          "timestamp" : 1610120917467,
+          "user" : "Michael"
+        },
+        "-MTaolzxb8BA9qnFY513" : {
+          "fuel_efficiency" : 2.5,
+          "fuelamount" : "31.74",
+          "odometer" : "180812",
+          "price" : "46.66",
+          "timestamp" : 1613411581010,
+          "user" : "Michael"
+        },
+        "-MVZzT2pqUPZ88uS0iQz" : {
+          "fuel_efficiency" : 4.5,
+          "fuelamount" : "30.2",
+          "odometer" : "181484",
+          "price" : "46.2",
+          "timestamp" : 1615528320434,
+          "user" : "Michael"
+        },
+        "-MWyWBc4EUX9sI1INfU5" : {
+          "fuel_efficiency" : 5.6,
+          "fuelamount" : "35",
+          "odometer" : "182108",
+          "price" : "56.72",
+          "timestamp" : 1617030334039,
+          "user" : "Michael"
+        },
+        "-MZJZqYwwyJpwaLBEddk" : {
+          "fuel_efficiency" : 4.6,
+          "fuelamount" : "23",
+          "odometer" : "182608",
+          "price" : "35.67",
+          "timestamp" : 1619547874777,
+          "user" : "Michael"
+        },
+        "-M_uz5A_q2o_fxna7yFr" : {
+          "fuel_efficiency" : 5.1,
+          "fuelamount" : "35",
+          "odometer" : "183295",
+          "price" : "54.6",
+          "timestamp" : 1621266031228,
+          "user" : "Michael"
+        },
+        "-MbawwFFfbDzRLsO3-OM" : {
+          "fuel_efficiency" : 4.3,
+          "fuelamount" : "29.4",
+          "odometer" : "183972",
+          "price" : "47.6",
+          "timestamp" : 1623077405127,
+          "user" : "Michael"
+        },
+        "-MdLBPdPh0ZpAAj7F4Jj" : {
+          "fuel_efficiency" : 4.6,
+          "fuelamount" : "33.5",
+          "odometer" : "184695",
+          "price" : "53.95",
+          "timestamp" : 1624943732855,
+          "user" : "Michael"
+        },
+        "-Mf8YLHlEHH_mscEEGb7" : {
+          "fuel_efficiency" : 4.6,
+          "fuelamount" : "33.3",
+          "odometer" : "185417",
+          "price" : "56.65",
+          "timestamp" : 1626879111241,
+          "user" : "Michael"
+        },
+        "-MiWie9AvE-ymkXNIjft" : {
+          "fuel_efficiency" : 4.2,
+          "fuelamount" : "31.65",
+          "odometer" : "186169",
+          "price" : "48.1",
+          "timestamp" : 1630505966952,
+          "user" : "Michael"
+        },
+        "-MjorAebzuflwIJJH621" : {
+          "fuel_efficiency" : 4.6,
+          "fuelamount" : "32.45",
+          "odometer" : "186875",
+          "price" : "45.35",
+          "timestamp" : 1631900709689,
+          "user" : "Michael"
+        },
+        "-MmWkztkJKACMmeTkxLh" : {
+          "fuel_efficiency" : 4.6,
+          "fuelamount" : "32.38",
+          "odometer" : "187579",
+          "price" : "27.45",
+          "timestamp" : 1634801544602,
+          "user" : "Michael"
+        },
+        "-MoHjJqmjwuMw7SfTFAn" : {
+          "fuel_efficiency" : 4.9,
+          "fuelamount" : "35",
+          "odometer" : "188300",
+          "price" : "60.2",
+          "timestamp" : 1636696936006,
+          "user" : "Michael"
+        },
+        "-Mpx-QzqChbaut9NpU0G" : {
+          "fuel_efficiency" : 4.5,
+          "fuelamount" : "32.35",
+          "odometer" : "189018",
+          "price" : "55.64",
+          "timestamp" : 1638479798701,
+          "user" : "Michael"
+        },
+        "-Mt3sGi8aP_DyDInY0uk" : {
+          "fuel_efficiency" : 5.1,
+          "fuelamount" : "32.74",
+          "odometer" : "189654",
+          "price" : "55",
+          "timestamp" : 1641833100998,
+          "user" : "Michael"
+        }
+      },
+      "logs" : {
+        "-MNNBZnC3k4YiXUhHqIW" : {
+          "file" : "-",
+          "file_url" : "",
+          "odometer" : "176195",
+          "price" : "0",
+          "timestamp" : 1606723718407,
+          "user" : "michburkhalter",
+          "what" : "Winterpneu",
+          "who" : "ig"
+        },
+        "-MZJZxwI0vCAqURmoogI" : {
+          "file" : "-",
+          "file_url" : "",
+          "odometer" : "182608",
+          "price" : "",
+          "timestamp" : 1619547905024,
+          "user" : "michburkhalter",
+          "what" : "Sommerrad montiert",
+          "who" : "Mbu"
+        },
+        "-MeBblyIZ6sM7uXDWOu5" : {
+          "file" : "1625856872699_180000.jpg",
+          "file_url" : "https://firebasestorage.googleapis.com/v0/b/moscht-d3512.appspot.com/o/documents%2F-M7Yyp6j-0gAS_zDYtQG%2F1625856872699_180000.jpg?alt=media&token=252b8d88-b661-405b-9424-bb05373d44fe",
+          "odometer" : "182900",
+          "price" : "963.7",
+          "timestamp" : 1625856872699,
+          "user" : "ig",
+          "what" : "180'000km Inspektion mit Zusatz",
+          "who" : "Garage Gerber"
+        },
+        "-MmgESBszrqmNIcAkdn7" : {
+          "file" : "1634977310110_Rechnung.pdf",
+          "file_url" : "https://firebasestorage.googleapis.com/v0/b/moscht-d3512.appspot.com/o/documents%2F-M7Yyp6j-0gAS_zDYtQG%2F1634977310110_Rechnung.pdf?alt=media&token=98eb1d8e-7081-4300-9050-7834dfe54f82",
+          "odometer" : "187578",
+          "price" : "78",
+          "timestamp" : 1634977310110,
+          "user" : "michburkhalter@gmail.com",
+          "what" : "Batterie ersetzt",
+          "who" : "michburkhalter"
+        },
+        "-MmgF-pamCHtASX-1Dzz" : {
+          "file" : "-",
+          "file_url" : "",
+          "odometer" : "187300",
+          "price" : "",
+          "timestamp" : 1634977457021,
+          "user" : "michburkhalter@gmail.com",
+          "what" : "Winterräder montiert",
+          "who" : "michburkhalter"
+        },
+        "-MtgCeo6RxRN7USySyQx" : {
+          "file" : "1642493024007_IMG_20220118_073514.jpg",
+          "file_url" : "https://firebasestorage.googleapis.com/v0/b/moscht-d3512.appspot.com/o/documents%2F-M7Yyp6j-0gAS_zDYtQG%2F1642493024007_IMG_20220118_073514.jpg?alt=media&token=266729ec-7700-446b-8f02-022754f1d8cd",
+          "odometer" : "189990",
+          "price" : "1037.65",
+          "timestamp" : 1642493024007,
+          "user" : "michburkhalter@gmail.com",
+          "what" : "Prüfbereit machen, Endschalldämpfer ersetzen, hintere Bremsbacken machen",
+          "who" : "Gerber"
+        }
+      },
+      "model" : "107",
+      "name" : "Pöschettli",
+      "plate" : "BE 524 091",
+      "timestamp" : 1589741575184
+    },
+    "-M7Z48v6XErXghnh4G62" : {
+      "brand" : "VW",
+      "fills" : {
+        "-MCCTSegtG0ID3GDAVO5" : {
+          "fuel_efficiency" : "-",
+          "fuelamount" : "66.27",
+          "odometer" : "201397",
+          "price" : "90.13",
+          "timestamp" : 1594573200335,
+          "user" : "michburkhalter"
+        },
+        "-MFFf31c0-iw-EJHQQ8t" : {
+          "fuel_efficiency" : 8,
+          "fuelamount" : "66.95",
+          "odometer" : "202234",
+          "price" : "91.7",
+          "timestamp" : 1598007557437,
+          "user" : "michburkhalter"
+        },
+        "-M_RXXbKrFrIO5HaEMpz" : {
+          "fuel_efficiency" : 9.2,
+          "fuelamount" : "70.6",
+          "odometer" : "203004",
+          "price" : "114.42",
+          "timestamp" : 1620755228743,
+          "user" : "Michael"
+        },
+        "-MfMZf1C4wU-vD1F9VH0" : {
+          "fuel_efficiency" : 7.1,
+          "fuelamount" : "46.2",
+          "odometer" : "203651",
+          "price" : "51.77",
+          "timestamp" : 1627114351745,
+          "user" : "Michael"
+        }
+      },
+      "logs" : {
+        "-MQmp1HwThnhd_tlFUQy" : {
+          "file" : "1610391771773_strassenverkehrs-und-schifffahrts-2021-01-09.pdf",
+          "file_url" : "https://firebasestorage.googleapis.com/v0/b/moscht-d3512.appspot.com/o/documents%2F-M7Z48v6XErXghnh4G62%2F1610391771773_strassenverkehrs-und-schifffahrts-2021-01-09.pdf?alt=media&token=618511de-5631-4fa8-9a4e-4910cc8e494e",
+          "odometer" : "",
+          "price" : "700",
+          "timestamp" : 1610391781773,
+          "user" : "michburkhalter@gmail.com",
+          "what" : "Motorfahrzeugsteuer",
+          "who" : "Kanton Bern"
+        },
+        "-MatG1XPCNgxksTHEsu-" : {
+          "file" : "1622310937362_IMG_20210529_195128.jpg",
+          "file_url" : "https://firebasestorage.googleapis.com/v0/b/moscht-d3512.appspot.com/o/documents%2F-M7Z48v6XErXghnh4G62%2F1622310937362_IMG_20210529_195128.jpg?alt=media&token=bd60975d-04a0-49b0-81d0-860c85ed02cb",
+          "odometer" : "203000",
+          "price" : "118.45",
+          "timestamp" : 1617861693000,
+          "user" : "michburkhalter@gmail.com",
+          "what" : "Abgastest",
+          "who" : "Flückiger"
+        },
+        "-Mbjkq4dmb-FRzlqXxWg" : {
+          "file" : "1623225224382_IMG_20210604_084250.jpg",
+          "file_url" : "https://firebasestorage.googleapis.com/v0/b/moscht-d3512.appspot.com/o/documents%2F-M7Z48v6XErXghnh4G62%2F1623225224382_IMG_20210604_084250.jpg?alt=media&token=ffd2530f-a861-4fb1-9d82-09372c39966b",
+          "odometer" : "203211",
+          "price" : "60",
+          "timestamp" : 1623225224382,
+          "user" : "michburkhalter@gmail.com",
+          "what" : "Periodische Fahrzeugprüfung - Failed",
+          "who" : "SVSA"
+        },
+        "-McO6bE2NxceJS0RanBZ" : {
+          "file" : "-",
+          "file_url" : "",
+          "odometer" : "203505",
+          "price" : "",
+          "timestamp" : 1623919067253,
+          "user" : "michburkhalter@gmail.com",
+          "what" : "Nachprüfung bestanden",
+          "who" : "SVSA"
+        },
+        "-MfI9_tVCpmxQIpBheAQ" : {
+          "file" : "1627040401749_Prüfbereit_Camper_21.pdf",
+          "file_url" : "https://firebasestorage.googleapis.com/v0/b/moscht-d3512.appspot.com/o/documents%2F-M7Z48v6XErXghnh4G62%2F1627040401749_Pr%C3%BCfbereit_Camper_21.pdf?alt=media&token=00cca7f3-0be1-4d52-b526-2150a1c7c9ae",
+          "odometer" : "203170",
+          "price" : "3297.65",
+          "timestamp" : 1627040401749,
+          "user" : "michburkhalter@gmail.com",
+          "what" : "Service, Prüfbereit machen, Bremskraftregler ersetzt, hintere Bremsscheiben ersetzt.",
+          "who" : "Flückiger"
+        }
+      },
+      "model" : "LT35",
+      "name" : "Camper LT35",
+      "plate" : "BE 516 995",
+      "timestamp" : 1589743233182
+    },
+    "-MCCSLId5pXeppiMAqtL" : {
+      "brand" : "Bentley",
+      "fills" : {
+        "-MOzGEaaZ9qhm9rqJwzA" : {
+          "fuel_efficiency" : 4.8,
+          "fuelamount" : "8.3",
+          "odometer" : "220",
+          "price" : "22",
+          "timestamp" : 1608452996058,
+          "user" : "MichBurkhalter"
+        },
+        "-MpDPPuwUAlbh6qWj6FX" : {
+          "fuel_efficiency" : 29.2,
+          "fuelamount" : "33",
+          "odometer" : "333",
+          "price" : "33",
+          "timestamp" : 1637698088714,
+          "user" : "Michael"
+        },
+        "-MpmYtjji4dR4sz6JZic" : {
+          "fuel_efficiency" : 9.9,
+          "fuelamount" : "11",
+          "odometer" : "444",
+          "price" : "11",
+          "timestamp" : 1638304554048,
+          "user" : "Michael"
+        },
+        "-Mq61aJcodA5M7hN4UKu" : {
+          "fuel_efficiency" : 49.5,
+          "fuelamount" : "55",
+          "odometer" : "555",
+          "price" : "5",
+          "timestamp" : 1638648145373,
+          "user" : "Michael"
+        },
+        "-Mq61btNODTOLYhaFTsP" : {
+          "fuel_efficiency" : 59.5,
+          "fuelamount" : "66",
+          "odometer" : 668,
+          "price" : "6",
+          "timestamp" : 1638648151821,
+          "user" : "Michael"
+        },
+        "-Mq61curs7ES1MCH0LNl" : {
+          "fuel_efficiency" : 6.3,
+          "fuelamount" : 7,
+          "odometer" : "777",
+          "price" : "7",
+          "timestamp" : 1638648156012,
+          "user" : "Michael"
+        },
+        "-MquwocMNW8toQqT10wx" : {
+          "fuel_efficiency" : 79.3,
+          "fuelamount" : 86,
+          "odometer" : 887,
+          "price" : "160",
+          "timestamp" : 1639519046591,
+          "user" : "Michael"
+        }
+      },
+      "logs" : {
+        "-Mq4ZO1JdujuU_-cZtwd" : {
+          "file" : "-",
+          "file_url" : "",
+          "odometer" : "33",
+          "price" : "33",
+          "timestamp" : 1638623449741,
+          "user" : "michburkhalter@gmail.com",
+          "what" : "asdf",
+          "who" : "33"
+        },
+        "-Mq4ZuR6w14yJPmi8k_o" : {
+          "file" : "-",
+          "file_url" : "",
+          "odometer" : "55",
+          "price" : "55",
+          "timestamp" : 1638623586560,
+          "user" : "michburkhalter@gmail.com",
+          "what" : "55",
+          "who" : "55"
+        },
+        "-Mq4ZvPxtX4MWPnXNm60" : {
+          "file" : "-",
+          "file_url" : "",
+          "odometer" : "22",
+          "price" : "22",
+          "timestamp" : 1638623590582,
+          "user" : "michburkhalter@gmail.com",
+          "what" : "22",
+          "who" : "22"
+        },
+        "-Mq4dROeyVGwcZb3Dez5" : {
+          "file" : "-",
+          "file_url" : "",
+          "odometer" : "44",
+          "price" : "",
+          "timestamp" : 1638624774052,
+          "user" : "michburkhalter@gmail.com",
+          "what" : "44",
+          "who" : ""
+        },
+        "-Mq4dTG3wsN9UEZnQLKr" : {
+          "file" : "1638624780880_digitec_Kaufbeleg_29359938.pdf",
+          "file_url" : "https://firebasestorage.googleapis.com/v0/b/moscht-d3512.appspot.com/o/documents%2F-MCCSLId5pXeppiMAqtL%2F1638624780880_digitec_Kaufbeleg_29359938.pdf?alt=media&token=2736b65d-5294-46e3-ae30-5989eae6b185",
+          "odometer" : "45",
+          "price" : "",
+          "timestamp" : 1638624780880,
+          "user" : "michburkhalter@gmail.com",
+          "what" : "45",
+          "who" : ""
+        },
+        "-Mqyg5mLgAy15B3h3NWi" : {
+          "file" : "-",
+          "file_url" : "",
+          "odometer" : "66",
+          "price" : "5",
+          "timestamp" : 1639581774161,
+          "user" : "michburkhalter@gmail.com",
+          "what" : "66",
+          "who" : "ICH"
+        }
+      },
+      "model" : "Schlitte",
+      "name" : "Test Car",
+      "plate" : "BE 10",
+      "timestamp" : 1594732406045
+    },
+    "-MHa9AyPXjNpJsjdOAWz" : {
+      "brand" : "Skoda",
+      "fills" : {
+        "-MHaCJ_2oV3QA7fvtaxg" : {
+          "fuelamount" : "0",
+          "odometer" : "8237",
+          "price" : "0",
+          "timestamp" : 1600516348171,
+          "user" : "michburkhalter"
+        },
+        "-MI45BE1AvWJXtJ8Esno" : {
+          "fuelamount" : "31.6",
+          "odometer" : "8843",
+          "price" : "40.7",
+          "timestamp" : 1601034568084,
+          "user" : "michburkhalter"
+        },
+        "-MKGFN_yJ-n48Q8lc0zf" : {
+          "fuelamount" : "39.38",
+          "odometer" : "9530",
+          "price" : "50.8",
+          "timestamp" : 1603386051105,
+          "user" : "michburkhalter"
+        },
+        "-ML3PtcTbGb2KJ1B0OlY" : {
+          "fuel_efficiency" : "5.6",
+          "fuelamount" : "40",
+          "odometer" : "10235",
+          "price" : "54",
+          "timestamp" : 1604244444885,
+          "user" : "Ich"
+        },
+        "-MNJOuHA-JXjxqnqU1nL" : {
+          "fuel_efficiency" : "5.3",
+          "fuelamount" : "39.2",
+          "odometer" : "10965",
+          "price" : "50.6",
+          "timestamp" : 1606660104573,
+          "user" : "Ich"
+        },
+        "-MPdMQI7Ktc0S-WByy0c" : {
+          "fuel_efficiency" : 5.8,
+          "fuelamount" : "41.25",
+          "odometer" : "11678",
+          "price" : "54.86",
+          "timestamp" : 1609159258655,
+          "user" : "Michael"
+        },
+        "-MRQScygiCBJbQHASwvW" : {
+          "fuel_efficiency" : 5.2,
+          "fuelamount" : "40.5",
+          "odometer" : "12454",
+          "price" : "56.7",
+          "timestamp" : 1611073490611,
+          "user" : "Michael"
+        },
+        "-MSBdKw5EdqjZ3S0M8QX" : {
+          "fuel_efficiency" : "-",
+          "fuelamount" : "29.1",
+          "odometer" : "13223",
+          "price" : "41.06",
+          "timestamp" : 1611898627794,
+          "user" : "Michael"
+        },
+        "-MUj0If5vqlYYzCQM8Kg" : {
+          "fuel_efficiency" : -33.6,
+          "fuelamount" : "37.65",
+          "odometer" : "13111",
+          "price" : "56.1",
+          "timestamp" : 1614622833075,
+          "user" : "Michael"
+        },
+        "-MXBSh2HevE-kF3sl3er" : {
+          "fuel_efficiency" : 6.6,
+          "fuelamount" : "38.44",
+          "odometer" : "13805",
+          "price" : "58.81",
+          "timestamp" : 1617264299103,
+          "user" : "Michael"
+        },
+        "-M_tXvXhxHXl7sKeenjY" : {
+          "fuel_efficiency" : 5.4,
+          "fuelamount" : "38",
+          "odometer" : "14506",
+          "price" : "59.28",
+          "timestamp" : 1621241870568,
+          "user" : "Michael"
+        },
+        "-MdetZXxq9X6r2IA28zY" : {
+          "fuel_efficiency" : 5.9,
+          "fuelamount" : "41",
+          "odometer" : "15202",
+          "price" : "66",
+          "timestamp" : 1625291113889,
+          "user" : "Michael"
+        },
+        "-MiBAogVacSjOvgzNRiH" : {
+          "fuel_efficiency" : 5,
+          "fuelamount" : "38.85",
+          "odometer" : "15978",
+          "price" : "49.26",
+          "timestamp" : 1630144514324,
+          "user" : "Michael"
+        },
+        "-MkVZVxT5T1Npou8Wkyj" : {
+          "fuel_efficiency" : 5.1,
+          "fuelamount" : "38.86",
+          "odometer" : "16733",
+          "price" : "59.26",
+          "timestamp" : 1632633989823,
+          "user" : "Michael"
+        },
+        "-MkzzJnp-YqMCo40d8RN" : {
+          "fuel_efficiency" : 5.4,
+          "fuelamount" : "25",
+          "odometer" : "17192",
+          "price" : "52.14",
+          "timestamp" : 1633161136258,
+          "user" : "Michael"
+        },
+        "-MmWsDdwcs7cEialQ5rR" : {
+          "fuel_efficiency" : 4.6,
+          "fuelamount" : "38",
+          "odometer" : "18019",
+          "price" : "06",
+          "timestamp" : 1634803440098,
+          "user" : "Michael"
+        },
+        "-Mp2BwapMCmnhDseyW6B" : {
+          "fuel_efficiency" : 6.4,
+          "fuelamount" : "39",
+          "odometer" : "18625",
+          "price" : "67",
+          "timestamp" : 1637510006712,
+          "user" : "Michael"
+        },
+        "-Mqd6RwJ4bA_MRnOj4sC" : {
+          "fuel_efficiency" : 6,
+          "fuelamount" : "42",
+          "odometer" : "19321",
+          "price" : "70",
+          "timestamp" : 1639219842485,
+          "user" : "Michael"
+        },
+        "-Ms-vWmMLqj8g2SQP-gb" : {
+          "fuel_efficiency" : 5.2,
+          "fuelamount" : "39",
+          "odometer" : "20066",
+          "price" : "67",
+          "timestamp" : 1640693111372,
+          "user" : "Michael"
+        }
+      },
+      "logs" : {
+        "-MHa9TlW_gF8muKErdI7" : {
+          "file" : "1600515599315_Rechnung_Fabia.jpg",
+          "file_url" : "https://firebasestorage.googleapis.com/v0/b/moscht-d3512.appspot.com/o/documents%2F-MHa9AyPXjNpJsjdOAWz%2F1600515599315_Rechnung_Fabia.jpg?alt=media&token=5e29a4d9-72b1-477b-9cfc-cf114b87846a",
+          "odometer" : "8237",
+          "price" : "12600",
+          "timestamp" : 1600515599315,
+          "user" : "michburkhalter@gmail.com",
+          "what" : "Kauf",
+          "who" : "Michu"
+        },
+        "-MOLDtIJaFqmf-jc5Qjl" : {
+          "file" : "-",
+          "file_url" : "",
+          "odometer" : "11000",
+          "price" : "10.00",
+          "timestamp" : 1607764514066,
+          "user" : "michburkhalter@gmail.com",
+          "what" : "Linkes Rückfahrlicht Birne geweselt",
+          "who" : "Gerber"
+        },
+        "-MPyUHhBsqclkbAkJj9v" : {
+          "file" : "-",
+          "file_url" : "",
+          "odometer" : "12000",
+          "price" : "",
+          "timestamp" : 1609513621615,
+          "user" : "michburkhalter@gmail.com",
+          "what" : "Jahreswechsel",
+          "who" : ""
+        },
+        "-MeBbZSiWwdJDIUNK-VC" : {
+          "file" : "1625856815892_15162.jpg",
+          "file_url" : "https://firebasestorage.googleapis.com/v0/b/moscht-d3512.appspot.com/o/documents%2F-MHa9AyPXjNpJsjdOAWz%2F1625856815892_15162.jpg?alt=media&token=e7dd5e80-2a4b-4b40-9d03-5fbb5e1c770e",
+          "odometer" : "15162",
+          "price" : "349.7",
+          "timestamp" : 1625856815892,
+          "user" : "michburkhalter@gmail.com",
+          "what" : "Inspektion mit Oelwechsel",
+          "who" : "Garage Gerber"
+        }
+      },
+      "model" : "Fabia",
+      "name" : "Fabia",
+      "plate" : "BE 516 995",
+      "timestamp" : 1600515526498
+    },
+    "-Mj8cvNx5FCOi52PwRCx" : {
+      "brand" : "VW",
+      "model" : "Crafter 35",
+      "name" : "Camper Crafter",
+      "plate" : "BE 516 995",
+      "timestamp" : 1631175554408
+    }
+  },
+  "user_settings" : {
+    "96bbyNzg9eXEpxxzVORf44hHvkr1" : {
+      "UserName" : "a"
+    },
+    "EXbEtJlgUoRb4VuCtgKbj6cz75y1" : {
+      "UserName" : "Kole"
+    },
+    "SaqzPS5EmZW29IBNkmPnWgU5JF82" : {
+      "UserName" : "Michael",
+      "ownedCars" : {
+        "-MHaGBkyXSBtrUzAM8wg" : {
+          "id" : "-M7Z48v6XErXghnh4G62"
+        },
+        "-MHaGCDlfDes1dwYNGoF" : {
+          "id" : "-MHa9AyPXjNpJsjdOAWz"
+        },
+        "-MHaVQ3zoox122DxVObq" : {
+          "id" : "-M7Yyp6j-0gAS_zDYtQG"
+        },
+        "-MHaZWOdXiliRMp1Chrl" : {
+          "id" : "-MCCSLId5pXeppiMAqtL"
+        },
+        "-Mj8cvPvgO_5_9RUt0nj" : {
+          "id" : "-Mj8cvNx5FCOi52PwRCx"
+        }
+      },
+      "selectedCar" : "-M7Yyp6j-0gAS_zDYtQG"
+    },
+    "tWuYMbIbJUZ0vUbTKQgWcn2isR02" : {
+      "UserName" : "asdf"
+    }
+  }
+}
