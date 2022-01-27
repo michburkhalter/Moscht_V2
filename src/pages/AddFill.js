@@ -11,7 +11,7 @@ import {ToastContainer} from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 import {show_toast_failure, show_toast_success} from '../helpers/toast';
-import {onValue, ref, push, update} from "firebase/database";
+import {onValue, push, ref, update} from "firebase/database";
 
 export default class AddFill extends Component {
     constructor(props) {
@@ -58,17 +58,20 @@ export default class AddFill extends Component {
             snapshot.forEach(snap => {
                 if (snap.key === 'selectedCar') {
                     selected_car = snap.val();
-                }else if(snap.key === 'ownedCars'){
+                } else if (snap.key === 'ownedCars') {
                     for (const [key, value] of Object.entries(snap.val())) {
                         owned_cars.push(value['id']);
-                    };
+                    }
+                    ;
                 }
                 user_settings[snap.key] = snap.val();
             });
 
-            this.setState({"user_settings":user_settings,
+            this.setState({
+                "user_settings": user_settings,
                 "owned_cars": owned_cars,
-                "selectedCar":selected_car},()=>{
+                "selectedCar": selected_car
+            }, () => {
                 const cars = ref(db, 'cars');
                 onValue(cars, snapshot => {
                     let cars = [];
@@ -80,24 +83,13 @@ export default class AddFill extends Component {
                     });
 
                     let filtered_cars = this.filter_to_only_owned_cars(cars);
-                    this.setState({"filtered_cars":filtered_cars,
-                        "cars": cars});
+                    this.setState({
+                        "filtered_cars": filtered_cars,
+                        "cars": cars
+                    });
                 });
             });
         });
-
-       //const cars = ref(db, 'cars');
-       //onValue(cars, snapshot => {
-       //    let cars = [];
-       //    snapshot.forEach(snap => {
-       //        cars.push(snap.val());
-       //        cars[cars.length - 1].car_id = snap.key;
-       //    });
-
-       //    let filtered_cars = this.filter_to_only_owned_cars(cars);
-       //    this.setState({filtered_cars});
-       //});
-
     }
 
     componentWillUnmount() {
@@ -164,8 +156,20 @@ export default class AddFill extends Component {
         event.preventDefault();
         this.setState({writeError: null});
 
-        let ordered_fills_of_selected_car = Object.values(this.get_car_by_id(this.state.selectedCar).fills).sort(this.compare_fills_by_odometer);
         let average_consumption_of_leg = 0;
+        let ordered_fills_of_selected_car = NaN;
+
+        if ((this.state.selectedCar === '') || (this.state.selectedCar === undefined)) {
+            console.log("oh oh, please select a car in order to upload any data");
+            this.setState({writeError: "please select a car first."});
+            return;
+        }
+
+        try {
+            ordered_fills_of_selected_car = Object.values(this.get_car_by_id(this.state.selectedCar).fills).sort(this.compare_fills_by_odometer);
+        } catch (e) {
+            console.log('No fills available to sort');
+        }
 
         if (
             this.state.fuelamount === '' ||

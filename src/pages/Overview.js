@@ -36,9 +36,9 @@ export default class Overview extends Component {
             writeError: null,
             gauge_consumption: {
                 type: 'gauge',
-                backgroundColor:'none',
-                plotarea:{
-                    backgroundColor:'transparent'
+                backgroundColor: 'none',
+                plotarea: {
+                    backgroundColor: 'transparent'
                 },
                 'scale-r': {
                     aperture: 200,     //Specify your scale range.
@@ -52,9 +52,9 @@ export default class Overview extends Component {
             },
             gauge_volume: {
                 type: 'gauge',
-                backgroundColor:'none',
-                plotarea:{
-                    backgroundColor:'transparent'
+                backgroundColor: 'none',
+                plotarea: {
+                    backgroundColor: 'transparent'
                 },
                 'scale-r': {
                     aperture: 200,     //Specify your scale range.
@@ -309,12 +309,12 @@ export default class Overview extends Component {
 
     get_fills_of_a_car(car_id) {
         let fills = [];
-        if ((car_id !== undefined) && (car_id !== "")) {
-            fills = this.get_car_by_id(this.state.selectedCar).fills;
-        }
-
-        //add property id to each fill
         try {
+            if ((car_id !== undefined) && (car_id !== "")) {
+                fills = this.get_car_by_id(this.state.selectedCar).fills;
+            }
+
+            //add property id to each fill
             Object.keys(fills).forEach(function (fill) {
                 fills[fill]['id'] = fill;
             });

@@ -1,19 +1,19 @@
-import { db } from "../services/firebase";
+import {db} from "../services/firebase";
 
 export function readChats() {
-  let abc = [];
-  db.ref("chats").on("value", snapshot => {
-    snapshot.forEach(snap => {
-      abc.push(snap.val())
+    let abc = [];
+    db.ref("chats").on("value", snapshot => {
+        snapshot.forEach(snap => {
+            abc.push(snap.val())
+        });
+        return abc;
     });
-    return abc;
-  });
 }
 
 export function writeChats(message) {
-  return db.ref("chats").push({
-    content: message.content,
-    timestamp: message.timestamp,
-    uid: message.uid
-  });
+    return db.ref("chats").push({
+        content: message.content,
+        timestamp: message.timestamp,
+        uid: message.uid
+    });
 }
