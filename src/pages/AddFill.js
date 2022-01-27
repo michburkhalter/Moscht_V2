@@ -169,7 +169,7 @@ export default class AddFill extends Component {
             ordered_fills_of_selected_car = Object.values(this.get_car_by_id(this.state.selectedCar).fills).sort(this.compare_fills_by_odometer);
         } catch (e) {
             console.log('No fills available to sort');
-            }
+        }
 
         if (
             this.state.fuelamount === '' ||

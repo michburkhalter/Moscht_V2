@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {auth} from '../services/firebase';
-import { signOut } from "firebase/auth";
+import {signOut} from "firebase/auth";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Header() {
