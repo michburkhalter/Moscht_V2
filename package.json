@@ -11,7 +11,7 @@
     "events": "3.3.0",
     "firebase": "9.6.4",
     "firebase-admin": "10.0.2",
-    "firebase-functions": "3.19.0",
+    "firebase-functions": "3.20.1",
     "moment": "2.29.3",
     "prop-types": "15.8.1",
     "react": "18.0.0",
