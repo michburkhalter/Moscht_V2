@@ -47,6 +47,10 @@ export default class SignUp extends Component {
         event.preventDefault();
         this.setState({error: ''});
 
+        sha256(this.state.zugangscode).then(hash => {
+            console.log(hash)
+        });
+
         if (this.state.zugangscode != this.state.master_hash){
             this.setState({error: "Wrong access code"});
         }else{
