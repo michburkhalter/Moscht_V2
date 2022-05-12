@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {signInWithGitHub, signInWithGoogle, signup} from "../helpers/auth";
-import {ref, set,onValue,update} from "firebase/database";
+import {onValue, ref, set} from "firebase/database";
 import {db} from "../services/firebase";
+import {sha256} from 'crypto-hash';
 
 export default class SignUp extends Component {
 
@@ -34,7 +35,7 @@ export default class SignUp extends Component {
             console.log("onValue db.public_application");
 
             snapshot.forEach(snap => {
-                if (snap.key == 'master_hash'){
+                if (snap.key == 'master_hash') {
                     this.setState({
                         "master_hash": snap.val()
                     });
@@ -47,13 +48,12 @@ export default class SignUp extends Component {
         event.preventDefault();
         this.setState({error: ''});
 
-        sha256(this.state.zugangscode).then(hash => {
-            console.log(hash)
-        });
+        //console.log(await sha256('1a2b3c4d5e6f'));
+        let hashed_input = await sha256(this.state.zugangscode)
 
-        if (this.state.zugangscode != this.state.master_hash){
+        if (hashed_input !== this.state.master_hash) {
             this.setState({error: "Wrong access code"});
-        }else{
+        } else {
             try {
                 await signup(this.state.email, this.state.password).then(value => {
                     set(ref(db, 'user_settings/' + value.user.uid), {
