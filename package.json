@@ -12,7 +12,6 @@
     "events": "3.3.0",
     "firebase": "9.6.4",
     "firebase-admin": "10.0.2",
-    "firebase-functions": "3.20.1",
     "moment": "2.29.3",
     "prop-types": "15.8.1",
     "react": "18.0.0",
@@ -26,7 +25,7 @@
     "react-gtm-module": "2.0.11",
     "react-icons": "4.3.1",
     "react-router-dom": "5.3.1",
-    "react-toastify": "8.2.0",
+    "react-toastify": "^9.0.1",
     "react-vertical-timeline-component": "3.5.2",
     "zingchart": "2.9.9",
     "zingchart-react": "3.1.4"
