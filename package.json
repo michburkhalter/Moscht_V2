@@ -10,7 +10,7 @@
     "classnames": "2.3.1",
     "crypto-hash": "^2.0.1",
     "events": "3.3.0",
-    "firebase": "9.6.4",
+    "firebase": "9.6.5",
     "firebase-admin": "^10.2.0",
     "moment": "2.29.3",
     "prop-types": "15.8.1",
