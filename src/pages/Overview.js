@@ -13,6 +13,20 @@ import 'react-toastify/dist/ReactToastify.css';
 import ZingChart from "zingchart-react";
 import {odometer_formatter} from "../helpers/datatable_formatters";
 
+import {
+  Chart,
+  Title,
+  CommonSeriesSettings,
+  Series,
+  Legend,
+  ArgumentAxis,
+  ValueAxis,
+  CommonAnnotationSettings,
+  Font,
+  Image,
+  Annotation,
+} from 'devextreme-react/chart';
+
 export default class Overview extends Component {
     constructor(props) {
         super(props);
@@ -24,6 +38,13 @@ export default class Overview extends Component {
             filtered_cars: [],
             owned_cars: [],
             selectedCar: '',
+            fill_history:[{
+                              date: '2014-12-29',
+                              close: 109.330002,
+                            }, {
+                              date: '2015-01-05',
+                              close: 112.010002,
+                            }],
             stats: {
                 nbr_of_fills: '',
                 total_amount_spent: '',
@@ -381,6 +402,21 @@ export default class Overview extends Component {
                                 <ListGroup.Item>&empty; Tankmenge: <strong>{this.state.stats.average_fill} l</strong></ListGroup.Item>
                                 <ListGroup.Item>&empty; Verbrauch: <strong>{this.state.stats.average_consumption} l/100km</strong></ListGroup.Item>
                             </ListGroup>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Chart
+                                id="chart"
+                                dataSource={this.state.fill_history}
+                              >
+                                <Title text="Apple Stock Price" subtitle="AAPL" />
+                                <CommonSeriesSettings argumentField="date" type="line" />
+                                <Series valueField="close" name="AAPL" />
+                                <Legend visible={false} />
+                                <ArgumentAxis argumentType="datetime" />
+                                <ValueAxis position="right" />                                
+                              </Chart>
                         </Col>
                     </Row>
                     <Row>
