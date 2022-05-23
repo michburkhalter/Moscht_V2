@@ -12,6 +12,7 @@ import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ZingChart from "zingchart-react";
 import {odometer_formatter} from "../helpers/datatable_formatters";
+import moment from 'moment';
 
 import {
   Chart,
@@ -26,7 +27,7 @@ import {
   Image,
   Annotation,
 } from 'devextreme-react/chart';
-
+ 
 export default class Overview extends Component {
     constructor(props) {
         super(props);
@@ -38,13 +39,7 @@ export default class Overview extends Component {
             filtered_cars: [],
             owned_cars: [],
             selectedCar: '',
-            fill_history:[{
-                              date: '2014-12-29',
-                              close: 109.330002,
-                            }, {
-                              date: '2015-01-05',
-                              close: 112.010002,
-                            }],
+            fill_history:[],
             stats: {
                 nbr_of_fills: '',
                 total_amount_spent: '',
@@ -145,6 +140,7 @@ export default class Overview extends Component {
                                     this.feed_consumption_gauge(tmp)
                                     this.feed_volume_gauge(tmp)
                                     this.calculate_stats(tmp)
+                                    this.feed_fill_history(tmp)
                                 }
                             }
                         });
@@ -325,6 +321,7 @@ export default class Overview extends Component {
             this.feed_consumption_gauge(tmp)
             this.feed_volume_gauge(tmp)
             this.calculate_stats(tmp)
+            this.feed_fill_history(tmp)
         }
     }
 
@@ -344,6 +341,31 @@ export default class Overview extends Component {
         }
 
         return fills;
+    }
+
+    feed_fill_history(fills){
+        console.log("asdf")
+
+        let consumption = 0;
+        let date = 0;
+        let history = [];
+
+        const format = 'YYYY-MM-DD';
+        
+        Object.keys(fills).forEach(function (fill) {
+            consumption = fills[fill].fuel_efficiency
+            //date = fills[fill].timestamp
+            date = moment.unix(fills[fill].timestamp / 1000).format(format);
+
+            if ((consumption !== undefined) && (consumption !== '-')){
+                let tmp = {date: date, consumption: consumption}
+                history.push(tmp)
+            }
+        });
+
+        console.log("assssf")
+        this.setState({fill_history: history})
+        
     }
 
 
@@ -410,9 +432,9 @@ export default class Overview extends Component {
                                 id="chart"
                                 dataSource={this.state.fill_history}
                               >
-                                <Title text="Apple Stock Price" subtitle="AAPL" />
+                                <Title text="Benzinverbrauch" subtitle="l/100km" />
                                 <CommonSeriesSettings argumentField="date" type="line" />
-                                <Series valueField="close" name="AAPL" />
+                                <Series valueField="consumption" name="AAPL" />
                                 <Legend visible={false} />
                                 <ArgumentAxis argumentType="datetime" />
                                 <ValueAxis position="right" />                                
