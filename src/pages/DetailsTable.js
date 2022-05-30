@@ -239,14 +239,13 @@ export default class DetailsTable extends Component {
                 row.fuel_efficiency = '-';
             }
 
-            //await db.ref('cars/' + this.state.selectedCar + '/fills/' + row['id']).update({
             await update(ref(db, 'cars/' + this.state.selectedCar + '/fills/' + row['id']), {
                 price: row['price'],
                 odometer: row['odometer'],
                 fuelamount: row['fuelamount'],
                 timestamp: parseInt(row['timestamp']),
                 user: row['user'],
-                fuel_efficiency: row['fuel_efficiency']
+                fuel_efficiency: parseFloat(row['fuel_efficiency'], 10)
             });
         } catch (error) {
             console.log(error);
