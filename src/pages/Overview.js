@@ -26,6 +26,7 @@ import {
   Font,
   Image,
   Annotation,
+  MinVisualRangeLength,
 } from 'devextreme-react/chart';
  
 export default class Overview extends Component {
@@ -344,18 +345,20 @@ export default class Overview extends Component {
     }
 
     feed_fill_history(fills){
-        console.log("asdf")
-
         let consumption = 0;
         let date = 0;
         let history = [];
 
         const format = 'YYYY-MM-DD';
         
-        Object.keys(fills).forEach(function (fill) {
-            consumption = fills[fill].fuel_efficiency
-            //date = fills[fill].timestamp
-            date = moment.unix(fills[fill].timestamp / 1000).format(format);
+        let tmp2 = Object.values(fills).sort(
+            this.compare_events_by_date
+        );
+
+        Object.keys(tmp2).forEach(function (fill) {
+            consumption = tmp2[fill].fuel_efficiency
+            
+            date = moment.unix(tmp2[fill].timestamp / 1000).format(format);
 
             if ((consumption !== undefined) && (consumption !== '-')){
                 let tmp = {date: date, consumption: consumption}
@@ -363,9 +366,22 @@ export default class Overview extends Component {
             }
         });
 
-        console.log("assssf")
         this.setState({fill_history: history})
         
+    }
+
+    compare_events_by_date(a, b) {
+        // Use toUpperCase() to ignore character casing
+        const eventA = parseInt(a.odometer, 10);
+        const eventB = parseInt(b.odometer, 10);
+
+        let comparison = 0;
+        if (eventA > eventB) {
+            comparison = 1;
+        } else if (eventA < eventB) {
+            comparison = -1;
+        }
+        return comparison;
     }
 
 
@@ -437,7 +453,7 @@ export default class Overview extends Component {
                                 <Series valueField="consumption" name="AAPL" />
                                 <Legend visible={false} />
                                 <ArgumentAxis argumentType="datetime" />
-                                <ValueAxis position="right" />                                
+                                <ValueAxis position="left" showZero="true"/>
                               </Chart>
                         </Col>
                     </Row>
